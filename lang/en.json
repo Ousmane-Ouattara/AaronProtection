@@ -1,0 +1,41 @@
+{
+  "title": "Aaron Protection",
+  "menu": "MENU",
+  "languages": "Languages",
+  "home": "Home",
+  "services": "Services",
+  "protection": "Fields of Intervention",
+  "support": "Technical Support",
+  "contact": "Contact",
+  "headline": "Behind every great figure, there's a shadow watching over.<br> That shadow is us.",
+  "discover": "DISCOVER NOW",
+  "noVideoSupport": "Your browser does not support the video.",
+  "badge": "PREMIUM",
+  "secureTitle": "CLOSE PROTECTION",
+  "secureDesc": "Our agents provide highly specialized close protection for business leaders, celebrities, political figures, and high-risk families. Each assignment is prepared with precision, discretion, and efficiency, based on the client's profile, potential risks, and lifestyle.",
+  "item1": "✔ Agents trained in international protocols",
+  "item2": "✔ 24/7 continuous protection, in France and abroad",
+  "item3": "✔ Proactive threat assessment and tailor-made security planning",
+  "item4": "✔ Discreet escort during private and professional movements",
+  "item5": "✔ Coordination with official services (law enforcement, local security)",
+  "btnContact": "CONTACT US",
+
+  "interventionTitle": "Our Fields of Intervention",
+  "interventionText1": "Aaron Protection operates <span class=\"highlight\">in France</span> and worldwide.<br>Wherever you are, our team is ready to intervene <span class=\"highlight\">24/7</span>.",
+  "interventionText2": "Europe, Africa, America, Asia or Oceania: we support you all over the world.",
+  "btnServices": "See our Services",
+
+  "footerPrivacy": "Privacy Policy",
+  "footerCookies": "Cookies",
+  "footerTerms": "Terms of Use",
+  "footerLegal": "Legal Notice",
+  "footerCopy": "© 2025 Aaron Protection",
+
+  "lang_fr": "French",
+  "lang_en": "English",
+  "lang_es": "Spanish",
+  "lang_ar": "Arabic",
+  "lang_ch": "Mandarin",
+  "lang_ru": "Russian"
+}
+

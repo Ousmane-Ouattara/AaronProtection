@@ -1,0 +1,41 @@
+{
+  "title": "亚伦安保",
+  "menu": "菜单",
+  "languages": "languages",
+  "home": "首页",
+  "services": "服务",
+  "protection": "干预领域",
+  "support": "技术支持",
+  "contact": "联系我们",
+  "headline": "在每一个伟大人物的背后，<br>都有一个守护的影子。那道影子就是我们。",
+  "discover": "立即探索",
+  "noVideoSupport": "您的浏览器不支持视频。",
+    "badge": "高端服务",
+  "secureTitle": "贴身保护",
+  "secureDesc": "我们的客户提供高度专业的贴身保护，面向企业领袖、名人、政治人物和高风险家庭。每项任务都会根据客户档案、潜在风险和生活方式，精心、私密、高效地准备。",
+  "item1": "✔ 接受过国际协议培训的客户",
+  "item2": "✔ 在法国及海外提供全天候 24/7 持续保护",
+  "item3": "✔ 主动威胁评估和定制安全规划",
+  "item4": "✔ 在私人和职业出行时提供秘密护送",
+  "item5": "✔ 与官方部门协调（执法部门、本地安全）",
+  "btnContact": "联系我们",
+
+  "interventionTitle": "我们的干预领域",
+  "interventionText1": "阿隆保护在<span class=\"highlight\">法国</span>及全球范围内运营。<br>无论您身在何处，我们的团队随时准备 <span class=\"highlight\">24/7</span> 介入。",
+  "interventionText2": "欧洲、非洲、美洲、亚洲或大洋洲：我们为您提供全球支持。",
+  "btnServices": "查看我们的服务",
+
+  "footerPrivacy": "隐私政策",
+  "footerCookies": "Cookies",
+  "footerTerms": "使用条款",
+  "footerLegal": "法律声明",
+  "footerCopy": "© 2025 阿隆保护",
+
+  "lang_fr": "法语",
+  "lang_en": "英语",
+  "lang_es": "西班牙语",
+  "lang_ar": "阿拉伯语",
+  "lang_ch": "普通话",
+  "lang_ru": "俄语"
+
+}

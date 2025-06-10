@@ -1,0 +1,43 @@
+{
+  "title": "Aaron Protection",
+  "menu": "MENU",
+  "languages": "Languages",
+  "home": "Accueil",
+  "services": "Services",
+  "protection": "Champs d'intervention",
+  "support": "Support technique",
+  "headline": "Derrière chaque grande figure, il y a une ombre qui veille.<br>Cette ombre c'est nous.",
+  "discover": "DÉCOUVRIR MAINTENANT",
+  "noVideoSupport": "Votre navigateur ne supporte pas la vidéo.",
+
+
+  "badge": "PREMIUM",
+  "secureTitle": "PROTECTION RAPPROCHÉE",
+  "secureDesc": "Nos agents assurent une protection rapprochée hautement spécialisée pour les chefs d’entreprise, célébrités, personnalités politiques et familles exposées. Chaque mission est préparée avec rigueur, discrétion et efficacité, en fonction du profil, des risques potentiels et des habitudes de vie du client.",
+  "item1": "✔ Agents formés aux protocoles internationaux",
+  "item2": "✔ Protection continue 24h/24 et 7j/7, en France et à l’international",
+  "item3": "✔ Évaluation proactive des menaces et planification sécuritaire sur mesure",
+  "item4": "✔ Accompagnement discret lors des déplacements privés et professionnels",
+  "item5": "✔ Coordination avec les services officiels (forces de l'ordre, sécurité locale)",
+  "btnContact": "NOUS CONTACTER",
+
+
+  "interventionTitle": "Nos Champs d'Intervention",
+  "interventionText1": "Aaron Protection opère <span class=\"highlight\">en France</span>, et à l'échelle mondiale.<br>Où que vous soyez, notre équipe est prête à intervenir <span class=\"highlight\">24h/24</span> et <span class=\"highlight\">7j/7</span>.",
+  "interventionText2": "Europe, Afrique, Amérique, Asie ou Océanie : nous vous accompagnons partout dans le monde.",
+  "btnServices": "Voir nos Services",
+
+  "footerPrivacy": "Politique de confidentialité",
+  "footerCookies": "Cookies",
+  "footerTerms": "Conditions d'utilisation",
+  "footerLegal": "Mentions légales",
+  "footerCopy": "© 2025 Aaron Protection",
+
+  
+  "lang_fr": "Français",
+  "lang_en": "Anglais",
+  "lang_es": "Espagnol",
+  "lang_ar": "Arabe",
+  "lang_ch": "Mandarin",
+  "lang_ru": "Russe"
+}

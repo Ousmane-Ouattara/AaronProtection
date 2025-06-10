@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Politique de Cookies | Aaron Protection</title>
+  <link rel="stylesheet" href="/css/confidentialite.css" />
+  <script src="/js/services.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="background-bar"></div>
+        <div class="menu" id="menu-icon" onclick="toggleMenu()">☰ <span data-i18n="menu">MENU</span></div>
+        <div class="logo">
+            <a href="/services.html"><img src="/img/Logo2.png" alt="Logo Aaron Protection"/></a>
+        </div>
+        
+        <div class="dealer">
+            <span class="dealer-label">🌐︎ <span data-i18n="languages">Languages</span></span>
+            <ul class="language-dropdown">
+                <li><a href="#" onclick="setLanguage('fr')" data-i18n="lang_fr">Français</a></li>
+                <li><a href="#" onclick="setLanguage('en')" data-i18n="lang_en">English</a></li>
+                <li><a href="#" onclick="setLanguage('es')" data-i18n="lang_es">Espagnol</a></li>
+                <li><a href="#" onclick="setLanguage('ar')" data-i18n="lang_ar">Arabe</a></li>
+                <li><a href="#" onclick="setLanguage('ch')" data-i18n="lang_ch">Mandarin</a></li>
+                <li><a href="#" onclick="setLanguage('ru')" data-i18n="lang_ru">Russe</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <nav id="hamburger-menu">
+        <div class="close-icon" onclick="toggleMenu()">✕</div>
+        <ul>
+            <li><a href="/index.html" data-i18n="home">Accueil</a></li>
+            <li><a href="/services.html" data-i18n="services">Services</a></li>
+            <li><a href="/intervention.html" data-i18n="protection">Champs d'intervention</a></li>
+            <li><a href="support-technique.html" data-i18n="support">Support Technique</a></li>
+        </ul>
+    </nav>
+
+  <div class="container">
+  <h1>Politique relative aux Cookies</h1>
+
+  <h2>1. Qu’est-ce qu’un cookie ?</h2>
+  <p>
+    Un cookie est un petit fichier texte enregistré sur votre appareil (ordinateur, smartphone, etc.) lorsque vous visitez un site internet. Il permet notamment de mémoriser vos préférences de navigation.
+  </p>
+
+  <h2>2. Cookies utilisés sur notre site</h2>
+  <p>Nous utilisons les types de cookies suivants :</p>
+  <ul>
+    <li><strong>Cookies fonctionnels :</strong> assurent le bon fonctionnement du site (langue, préférences utilisateur).</li>
+    <li><strong>Cookies analytiques :</strong> permettent d’analyser la fréquentation du site via des outils comme Google Analytics.</li>
+  </ul>
+
+  <h2>3. Consentement</h2>
+  <p>
+    Lors de votre première visite sur notre site, une bannière vous informe de l’utilisation des cookies. Vous pouvez les accepter, les refuser ou les paramétrer selon vos préférences.
+  </p>
+
+  <h2>4. Gérer ou supprimer les cookies</h2>
+  <p>
+    Vous pouvez à tout moment configurer votre navigateur pour accepter ou refuser les cookies, ou encore les supprimer manuellement.
+  </p>
+
+  <h2>5. Durée de conservation</h2>
+  <p>
+    Les cookies sont conservés pour une durée maximale de 13 mois après leur dépôt sur votre appareil.
+  </p>
+
+  <h2>6. Contact</h2>
+  <p>
+    Pour toute question concernant notre politique de cookies, vous pouvez nous contacter à l’adresse : contact@aaron-protection.fr
+  </p>
+</div>
+
+<div id="cookieConsentBanner" class="cookie-banner" style="display: none;">
+  <p style="color: var(--text-color); font-family: 'Playfair Display', serif; font-size: 16px;">
+    Ce site utilise des cookies pour améliorer votre expérience. En continuant, vous acceptez notre
+    <a href="confidentialite.html" style="color: var(--link-color);">politique de confidentialité</a>.
+  </p>
+  <div>
+    <button class="cookie-btn filled" onclick="acceptCookies()">Accepter</button>
+    <button class="cookie-btn outline" onclick="declineCookies()">Refuser</button>
+  </div>
+</div>
+
+
+  <div class="custom-cursor"></div>
+
+    <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <a href="confidentialite.html">Politique de confidentialité</a>
+            <a href="cookies.html">Cookies</a>
+        </div>
+        <div class="footer-column">
+            <a href="conditions.html">Conditions d'utilisation</a>
+            <a href="mentions.html">Mentions légales</a>
+        </div>
+        <div class="footer-column">
+            <p>&copy; 2025 Aaron Protection</p>
+
+        </div>
+    </div>
+</footer>
+
+<script>
+  function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    document.getElementById('cookieConsentBanner').style.display = 'none';
+  }
+
+  function declineCookies() {
+    localStorage.setItem('cookieConsent', 'declined');
+    document.getElementById('cookieConsentBanner').style.display = 'none';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const consent = localStorage.getItem('cookieConsent');
+    if (!consent) {
+      document.getElementById('cookieConsentBanner').style.display = 'flex';
+    }
+  });
+</script>
+
+</body>
+</html>

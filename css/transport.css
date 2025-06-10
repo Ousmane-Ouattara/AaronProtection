@@ -1,0 +1,429 @@
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+header {
+  position: fixed; /* 🔁 Était absolute */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0); /* Ajouté pour lisibilité */
+  backdrop-filter: blur(8px);           /* Flou de fond élégant */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.background-bar {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.344);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+
+.background-bar.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Menu et Langues */
+.menu,
+.dealer {
+  right: 70px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.4s ease;
+}
+
+.menu.scrolled,
+.dealer.scrolled {
+  color: white;
+}
+
+/* Logo */
+.logo {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo img {
+  max-height: 50px;
+}
+
+.btn:hover {
+  background: #ddd;
+}
+
+/* MENU HAMBURGER – VERSION GAUCHE PLEIN ÉCRAN */
+#hamburger-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 35%;
+  background-color: rgba(0, 0, 0, 0.144);
+  backdrop-filter: blur(8px);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: 9999;
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#hamburger-menu.visible {
+  transform: translateX(0);
+}
+
+#hamburger-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+#hamburger-menu ul li {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#hamburger-menu ul li a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 15px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Hover par défaut dans hamburger menu → bleu */
+#hamburger-menu ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #d4af37;
+}
+
+#hamburger-menu.visible ul li {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInLinks 0.4s ease forwards;
+}
+
+#hamburger-menu.visible ul li:nth-child(1) { animation-delay: 0.1s; }
+#hamburger-menu.visible ul li:nth-child(2) { animation-delay: 0.2s; }
+#hamburger-menu.visible ul li:nth-child(3) { animation-delay: 0.3s; }
+#hamburger-menu.visible ul li:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInLinks {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.close-icon {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+
+/* Langues */
+.dealer {
+  position: relative;
+}
+
+/* Style du bouton "Languages" */
+.languages {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.languages:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Style du menu déroulant */
+/* Bouton Languages avec plus de transparence */
+.languages {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.1); /* Plus transparent */
+}
+
+.languages:hover {
+  background-color: rgba(0, 0, 0, 0.2); /* Léger assombrissement au survol */
+}
+
+/* Menu déroulant avec plus de transparence */
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 10px 0;
+  min-width: 160px;
+  display: none;
+  z-index: 10;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Éléments du menu */
+.language-dropdown li {
+  padding: 8px 20px;
+  list-style: none;
+}
+
+.language-dropdown li a {
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+/* Survol : couleur jaune doré et petit décalage */
+.language-dropdown li a:hover {
+  color: #ffd700;
+  transform: translateX(5px);
+}
+
+/* Au survol, les langues doivent aussi avoir la bonne couleur */
+.dealer .language-dropdown li a {
+  color: inherit; /* hérite de .dealer */
+}
+
+
+/* Garder "Langues" en blanc */
+.dealer-label {
+  color: white;
+}
+
+/* Par défaut (section 1), liens en bleu */
+.dealer .language-dropdown li a {
+  color: #fff;
+}
+
+/* En section 2, liens deviennent or */
+.dealer.gold .language-dropdown li a {
+  color: #fff;
+}
+
+/* Hover par défaut (section 1 → bleu) */
+.dealer .language-dropdown li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #d4af37;
+}
+*:not(input):not(textarea):not(select) {
+  cursor: none !important;
+}
+
+
+/* CURSEUR PERSONNALISÉ */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.15s ease, background-color 0.15s ease, border 0.15s ease;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor.click {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.custom-cursor.hover {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+/* Effet hover (facultatif pour des liens) */
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+
+.secure-transport {
+  background-image: url('/img/cars.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.75); /* Encadré semi-transparent */
+  padding: 50px 30px;
+  max-width: 800px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #d4b55a;
+  color: #111;
+  font-weight: bold;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.content h2 {
+  color: #fff;
+  font-size: 28px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.content p {
+  font-size: 16px;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.content ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.content ul li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #e2c675;
+}
+
+.btn-contact {
+  display: inline-block;
+  background-color: transparent;
+  color: #e2c675;
+  border: 1px solid #e2c675;
+  padding: 12px 25px;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+  font-weight: bold;
+}
+
+.btn-contact:hover {
+  background-color: #e2c675;
+  color: #111;
+}
+
+
+.footer {
+    background-color: #111;
+    color: #fff;
+    padding: 40px 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px;
+    min-width: 200px;
+}
+
+.footer-column a {
+    color: #ccc;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.footer-column a:hover {
+    color: #fff;
+}
+
+.footer-column p {
+    margin: 0 0 10px;
+    color: #aaa;
+}
+
+/* Scrollbar pour WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0e0e0e; /* fond sombre */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d4af37; /* or */
+  border-radius: 10px;
+  border: 2px solid #0e0e0e;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4b4b49 #0e0e0e;
+}
