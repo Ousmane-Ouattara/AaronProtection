@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="title">Aaron Protection</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <script src="js/script.js" defer></script> 
+</head>
+<body>
+
+<header>
+  <div class="background-bar"></div>
+  <div class="logo">
+    <a href="index.html"><img src="img/Logo.png" alt="Logo Aaron Protection"/></a>
+  </div>
+  <div class="dealer">
+    <span class="dealer-label">🌐︎ <span data-i18n="languages">Languages</span></span>
+    <ul class="language-dropdown">
+      <li><a href="#" onclick="setLanguage('fr')" data-i18n="lang_fr">Français</a></li>
+      <li><a href="#" onclick="setLanguage('en')" data-i18n="lang_en">🇬🇧 English</a></li>
+      <li><a href="#" onclick="setLanguage('es')" data-i18n="lang_es">Espagnol</a></li>
+      <li><a href="#" onclick="setLanguage('ar')" data-i18n="lang_ar">Arabe</a></li>
+      <li><a href="#" onclick="setLanguage('ch')" data-i18n="lang_ch">Mandarin</a></li>
+      <li><a href="#" onclick="setLanguage('ru')" data-i18n="lang_ru">Russe</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="main-wrapper">
+    <video autoplay muted loop id="background-video">
+      <source src="videos/vecteezy_asian-young-woman-using-laptop-sitting-near-windows-at-first_42644276.mp4" type="video/mp4">
+      <span data-i18n="noVideoSupport">Votre navigateur ne supporte pas la vidéo.</span>
+    </video>
+
+    <div class="main-content">
+      <h2><span id="compteur"></span></h2>
+      <h1 data-i18n="headline">Derrière chaque grande figure, il y a une ombre qui veille.<br>Cette ombre c'est nous.</h1>
+      <a href="./services.html" class="btn">DÉCOUVRIR MAINTENANT</a>
+    </div>
+  </div>
+</main>
+
+<div class="custom-cursor"></div>
+
+</body>
+</html>

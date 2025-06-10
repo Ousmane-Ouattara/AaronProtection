@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Champs d'intervention</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/intervention.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <script src="js/services.js" defer></script>
+  <script src="js/lang.js" defer></script>
+</head>
+<body>
+<section class="video-section">
+    <video autoplay muted loop playsinline class="background-video">
+      <source src="videos/earth-vmake.mp4" type="video/mp4" />
+      Votre navigateur ne supporte pas la vidéo HTML5.
+    </video>
+
+    <div class="overlay">
+      <div class="content">
+        <h1 data-i18n="interventionTitle">Nos Champs d'Intervention</h1>
+        <p data-i18n="interventionText1">
+          Aaron Protection opère <span class="highlight">en France</span>, et à l'échelle mondiale.<br>
+          Où que vous soyez, notre équipe est prête à intervenir <span class="highlight">24h/24</span> et <span class="highlight">7j/7</span>.
+        </p>
+        <p data-i18n="interventionText2">
+          Europe, Afrique, Amérique, Asie ou Océanie : nous vous accompagnons partout dans le monde.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- HEADER -->
+  <header>
+    <div class="background-bar"></div>
+    <div class="menu" id="menu-icon" onclick="toggleMenu()">☰ <span data-i18n="menu">MENU</span></div>
+    <div class="logo">
+      <a href="services.html"><img src="img/Logo2.png" alt="Logo Aaron Protection" /></a>
+    </div>
+
+    <div class="dealer">
+      <div class="languages">
+        <span class="dealer-label">🌐︎ <span data-i18n="languages">Languages</span></span>
+        <ul class="language-dropdown">
+          <li><a href="#" onclick="setLanguage('fr')" data-i18n="lang_fr">Français</a></li>
+          <li><a href="#" onclick="setLanguage('en')" data-i18n="lang_en">English</a></li>
+          <li><a href="#" onclick="setLanguage('es')" data-i18n="lang_es">Espagnol</a></li>
+          <li><a href="#" onclick="setLanguage('ar')" data-i18n="lang_ar">Arabe</a></li>
+          <li><a href="#" onclick="setLanguage('ch')" data-i18n="lang_ch">Mandarin</a></li>
+          <li><a href="#" onclick="setLanguage('ru')" data-i18n="lang_ru">Russe</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENU HAMBURGER -->
+  <nav id="hamburger-menu">
+    <div class="close-icon" onclick="toggleMenu()">✕</div>
+    <ul>
+      <li><a href="index.html" data-i18n="home">Accueil</a></li>
+      <li><a href="services.html" data-i18n="services">Services</a></li>
+      <li><a href="intervention.html" data-i18n="protection">Champs d'intervention</a></li>
+      <li><a href="html/support-technique.html" data-i18n="support">Support Technique</a></li>
+    </ul>
+  </nav>
+
+
+  <div id="map"></div>
+
+
+  <div class="button-container">
+    <a href="services.html#services">
+  <button class="btn-services" data-i18n="btnServices">Voir nos Services</button>
+  </a>
+</div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <a href="html/confidentialite.html" data-i18n="footerPrivacy">Politique de confidentialité</a>
+        <a href="html/cookies.html" data-i18n="footerCookies">Cookies</a>
+      </div>
+      <div class="footer-column">
+        <a href="html/conditions.html" data-i18n="footerTerms">Conditions d'utilisation</a>
+        <a href="html/mentions.html" data-i18n="footerLegal">Mentions légales</a>
+      </div>
+      <div class="footer-column">
+        <p data-i18n="footerCopy">&copy; 2025 Aaron Protection</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="custom-cursor"></div>
+
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const map = L.map('map').setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    document.querySelector('.leaflet-tile-pane').style.display = 'none';
+
+    axios.get('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+      .then(response => {
+        L.geoJSON(response.data, {
+          style: {
+            color: "#FFD700",
+            weight: 1,
+            fillColor: "#FFD700",
+            fillOpacity: 0.15
+          },
+          onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+              layer.bindPopup(`<strong>${feature.properties.name}</strong><br>Intervention disponible partout.`);
+            }
+          }
+        }).addTo(map);
+      });
+
+    function toggleMenu() {
+      document.getElementById("hamburger-menu").classList.toggle("open");
+    }
+  </script>
+</body>
+</html>

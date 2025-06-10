@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aaron Protection</title>
+  <link rel="stylesheet" href="css/contact.css" />
+  <script src="/js/services.js" defer></script>
+</head>
+<body>
+  <div class="contact-container">
+    <h1>Renseignement</h1>
+    <form id="contact-form">
+      <label for="lastname">Nom</label>
+      <input type="text" id="lastname" name="lastname" required />
+
+      <label for="firstname">Prénom</label>
+      <input type="text" id="firstname" name="firstname" required />
+
+      <label for="phone">Numéro de téléphone</label>
+      <input type="tel" id="phone" name="phone" required />
+
+      <label for="email">Adresse email</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="location">Lieu</label>
+      <input type="text" id="location" name="location" required />
+
+      <label for="details">Détails à savoir (horaires, date, contexte...)</label>
+      <textarea id="details" name="details" rows="6" required></textarea>
+
+      <button type="submit">Envoyer la demande</button>
+    </form>
+
+  <!-- Modal de confirmation -->
+  <div id="modal-confirm" class="modal hidden">
+    <div class="modal-content">
+      <p>Votre demande sera analysée.<br>Nous vous contacterons par mail ou téléphone.</p>
+      <button id="modal-close-btn">Fermer</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = {
+        lastname: document.getElementById('lastname').value,
+        firstname: document.getElementById('firstname').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        location: document.getElementById('location').value,
+        details: document.getElementById('details').value
+      };
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          // Affiche le modal
+          const modal = document.getElementById('modal-confirm');
+          modal.classList.remove('hidden');
+
+          // Bouton pour fermer le modal
+          document.getElementById('modal-close-btn').onclick = () => {
+            modal.classList.add('hidden');
+            // Redirection après fermeture (ou tu peux le faire automatiquement)
+            window.location.href = 'services.html';
+          };
+        } else {
+          alert("Erreur lors de l'envoi du formulaire.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Erreur réseau.");
+      }
+    });
+  </script>
+
+</body>
+</html>

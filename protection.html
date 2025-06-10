@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protection Rapprochée | Aaron Protection</title>
+  <link rel="stylesheet" href="css/protection.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <script src="js/services.js" defer></script>
+  <script src="js/lang.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="background-bar"></div>
+        <div class="menu" id="menu-icon" onclick="toggleMenu()">☰ <span data-i18n="menu">MENU</span></div>
+        <div class="logo">
+            <a href="services.html"><img src="img/Logo2.png" alt="Logo Aaron Protection"/></a>
+        </div>
+        
+        <div class="dealer">
+  <div class="languages">
+    <span class="dealer-label">🌐︎ <span data-i18n="languages">Languages</span></span>
+    <ul class="language-dropdown">
+      <li><a href="#" onclick="setLanguage('fr')" data-i18n="lang_fr">Français</a></li>
+      <li><a href="#" onclick="setLanguage('en')" data-i18n="lang_en">English</a></li>
+      <li><a href="#" onclick="setLanguage('es')" data-i18n="lang_es">Espagnol</a></li>
+      <li><a href="#" onclick="setLanguage('ar')" data-i18n="lang_ar">Arabe</a></li>
+      <li><a href="#" onclick="setLanguage('ch')" data-i18n="lang_ch">Mandarin</a></li>
+      <li><a href="#" onclick="setLanguage('ru')" data-i18n="lang_ru">Russe</a></li>
+    </ul>
+  </div>
+</div>
+
+    </header>
+
+    <nav id="hamburger-menu">
+        <div class="close-icon" onclick="toggleMenu()">✕</div>
+        <ul>
+            <li><a href="index.html" data-i18n="home">Accueil</a></li>
+            <li><a href="services.html" data-i18n="services">Services</a></li>
+            <li><a href="intervention.html" data-i18n="protection">Champs d'intervention</a></li>
+            <li><a href="html/support-technique.html" data-i18n="support">Support Technique</a></li>
+        </ul>
+    </nav>
+
+  <section class="secure-transport">
+    <div class="overlay">
+      <div class="badge" data-i18n="badge">PREMIUM</div>
+
+      <div class="content">
+        <h2 data-i18n="secureTitle">PROTECTION RAPPROCHÉE</h2>
+        <p data-i18n="secureDesc">
+          Nos agents assurent une protection rapprochée hautement spécialisée pour les chefs d’entreprise, 
+          célébrités, personnalités politiques et familles exposées. 
+          Chaque mission est préparée avec rigueur, discrétion et efficacité, 
+          en fonction du profil, des risques potentiels et des habitudes de vie du client.
+        </p>
+        <ul>
+          <li data-i18n="item1">✔ Agents formés aux protocoles internationaux</li>
+          <li data-i18n="item2">✔ Protection continue 24h/24 et 7j/7, en France et à l’international</li>
+          <li data-i18n="item3">✔ Évaluation proactive des menaces et planification sécuritaire sur mesure</li>
+          <li data-i18n="item4">✔ Accompagnement discret lors des déplacements privés et professionnels</li>
+          <li data-i18n="item5">✔ Coordination avec les services officiels (forces de l'ordre, sécurité locale)</li>
+        </ul>
+        <a href="contact.html" class="btn-contact" data-i18n="btnContact">NOUS CONTACTER</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <a href="html/confidentialite.html" data-i18n="footerPrivacy">Politique de confidentialité</a>
+        <a href="html/cookies.html" data-i18n="footerCookies">Cookies</a>
+      </div>
+      <div class="footer-column">
+        <a href="html/conditions.html" data-i18n="footerTerms">Conditions d'utilisation</a>
+        <a href="html/mentions.html" data-i18n="footerLegal">Mentions légales</a>
+      </div>
+      <div class="footer-column">
+        <p data-i18n="footerCopy">&copy; 2025 Aaron Protection</p>
+        </div>
+    </div>
+</footer>
+
+    <div class="custom-cursor"></div>
+
+</body>
+</html>
