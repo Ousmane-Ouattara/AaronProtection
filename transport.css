@@ -292,7 +292,7 @@ button:hover ~ .custom-cursor {
 
 
 .secure-transport {
-  background-image: url('/img/cars.jpg');
+  background-image: url('img/cars.jpg');
   background-size: cover;
   background-position: center;
   position: relative;
