@@ -5,7 +5,23 @@ async function setLanguage(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[key]) {
-      el.innerHTML = translations[key];
+      if (el.placeholder !== undefined) {
+        el.placeholder = translations[key];
+      } else {
+        el.innerHTML = translations[key];
+      }
+    }
+  });
+
+  window.currentTranslations = translations;
+
+  document.documentElement.lang = lang;
+  localStorage.setItem('lang', lang);
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[key]) {
+      el.placeholder = translations[key];
     }
   });
 
@@ -17,3 +33,5 @@ window.addEventListener('DOMContentLoaded', () => {
   const lang = localStorage.getItem('lang') || 'fr';
   setLanguage(lang);
 });
+
+

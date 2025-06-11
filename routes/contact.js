@@ -8,11 +8,11 @@ router.post('/contact', async (req, res) => {
   const { lastname, firstname, phone, email, location, details } = req.body;
 
   try {
-    // Enregistrement MongoDB
+    // Save to MongoDB
     const newContact = new Contact({ lastname, firstname, phone, email, location, details });
     await newContact.save();
 
-    // Config email
+    // Email config
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -21,47 +21,47 @@ router.post('/contact', async (req, res) => {
       }
     });
 
-    // Email pour toi
+    // Notification email for admin
     const notificationMail = {
       from: `"Aaron Protection" <${process.env.MAIL_USER}>`,
       to: process.env.MAIL_RECEIVER,
-      subject: 'Nouvelle demande de protection',
+      subject: 'New Protection Request',
       text: `
-📩 Nouvelle demande reçue :
+📩 New request received:
 
-👤 Nom : ${lastname}
-👤 Prénom : ${firstname}
-📞 Téléphone : ${phone}
-📧 Email : ${email}
-📍 Lieu : ${location}
+👤 Last name: ${lastname}
+👤 First name: ${firstname}
+📞 Phone: ${phone}
+📧 Email: ${email}
+📍 Location: ${location}
 
-📝 Détails :
+📝 Details:
 ${details}
       `
     };
 
-    // Email de confirmation pour le client avec HTML
+    // Confirmation email for client
     const confirmationMail = {
       from: `"Aaron Protection" <${process.env.MAIL_USER}>`,
       to: email,
-      subject: 'Confirmation de votre demande - Aaron Protection',
+      subject: 'Your Request Confirmation - Aaron Protection',
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px;">
-          <h2 style="color: #1a1a1a;">Bonjour ${firstname},</h2>
-          <p>Votre demande a bien été reçue par <strong>Aaron Protection</strong>.</p>
-          <p>Nous l'étudierons avec attention et vous recontacterons prochainement par téléphone ou email.</p>
+          <h2 style="color: #1a1a1a;">Hello ${firstname},</h2>
+          <p>Your request has been successfully received by <strong>Aaron Protection</strong>.</p>
+          <p>We will carefully review your request and get back to you shortly by phone or email.</p>
 
-          <h3 style="margin-top: 20px;">📄 Résumé de votre demande :</h3>
+          <h3 style="margin-top: 20px;">📄 Summary of your request:</h3>
           <ul>
-            <li><strong>Nom :</strong> ${lastname}</li>
-            <li><strong>Prénom :</strong> ${firstname}</li>
-            <li><strong>Email :</strong> ${email}</li>
-            <li><strong>Téléphone :</strong> ${phone}</li>
-            <li><strong>Lieu :</strong> ${location}</li>
-            <li><strong>Détails :</strong> ${details}</li>
+            <li><strong>Last name:</strong> ${lastname}</li>
+            <li><strong>First name:</strong> ${firstname}</li>
+            <li><strong>Email:</strong> ${email}</li>
+            <li><strong>Phone:</strong> ${phone}</li>
+            <li><strong>Location:</strong> ${location}</li>
+            <li><strong>Details:</strong> ${details}</li>
           </ul>
 
-          <p style="margin-top: 30px;">Merci pour votre confiance.<br>L'équipe <strong>Aaron Protection</strong>.</p>
+          <p style="margin-top: 30px;">Thank you for your trust.<br>The <strong>Aaron Protection</strong> team.</p>
         </div>
       `
     };
@@ -69,11 +69,11 @@ ${details}
     await transporter.sendMail(notificationMail);
     await transporter.sendMail(confirmationMail);
 
-    res.status(200).json({ message: 'Demande enregistrée et emails envoyés.' });
+    res.status(200).json({ message: 'Request saved and emails sent.' });
 
   } catch (error) {
-    console.error('Erreur:', error);
-    res.status(500).json({ error: 'Erreur lors de l\'enregistrement ou de l\'envoi d\'email.' });
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred while saving or sending email.' });
   }
 });
 

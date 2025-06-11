@@ -39,49 +39,49 @@
     </nav>
 
   <div class="container">
-  <h1>Politique relative aux Cookies</h1>
+  <h1 data-i18n="cookiesTitle">Politique relative aux Cookies</h1>
 
-  <h2>1. Qu’est-ce qu’un cookie ?</h2>
-  <p>
+  <h2 data-i18n="cookies1Title">1. Qu’est-ce qu’un cookie ?</h2>
+  <p data-i18n="cookies1Content">
     Un cookie est un petit fichier texte enregistré sur votre appareil (ordinateur, smartphone, etc.) lorsque vous visitez un site internet. Il permet notamment de mémoriser vos préférences de navigation.
   </p>
 
-  <h2>2. Cookies utilisés sur notre site</h2>
-  <p>Nous utilisons les types de cookies suivants :</p>
+  <h2 data-i18n="cookies2Title">2. Cookies utilisés sur notre site</h2>
+  <p data-i18n="cookies2Content">Nous utilisons les types de cookies suivants :</p>
   <ul>
-    <li><strong>Cookies fonctionnels :</strong> assurent le bon fonctionnement du site (langue, préférences utilisateur).</li>
-    <li><strong>Cookies analytiques :</strong> permettent d’analyser la fréquentation du site via des outils comme Google Analytics.</li>
+    <li data-i18n="cookies2List1"><strong>Cookies fonctionnels :</strong> assurent le bon fonctionnement du site (langue, préférences utilisateur).</li>
+    <li data-i18n="cookies2List2"><strong>Cookies analytiques :</strong> permettent d’analyser la fréquentation du site via des outils comme Google Analytics.</li>
   </ul>
 
-  <h2>3. Consentement</h2>
-  <p>
+  <h2 data-i18n="cookies3Title">3. Consentement</h2>
+  <p data-i18n="cookies3Content">
     Lors de votre première visite sur notre site, une bannière vous informe de l’utilisation des cookies. Vous pouvez les accepter, les refuser ou les paramétrer selon vos préférences.
   </p>
 
-  <h2>4. Gérer ou supprimer les cookies</h2>
-  <p>
+  <h2 data-i18n="cookies4Title">4. Gérer ou supprimer les cookies</h2>
+  <p data-i18n="cookies4Content">
     Vous pouvez à tout moment configurer votre navigateur pour accepter ou refuser les cookies, ou encore les supprimer manuellement.
   </p>
 
-  <h2>5. Durée de conservation</h2>
-  <p>
+  <h2 data-i18n="cookies5Title">5. Durée de conservation</h2>
+  <p data-i18n="cookies5Content">
     Les cookies sont conservés pour une durée maximale de 13 mois après leur dépôt sur votre appareil.
   </p>
 
-  <h2>6. Contact</h2>
-  <p>
+  <h2 data-i18n="cookies6Title">6. Contact</h2>
+  <p data-i18n="cookies6Content">
     Pour toute question concernant notre politique de cookies, vous pouvez nous contacter à l’adresse : contact@aaron-protection.fr
   </p>
 </div>
 
 <div id="cookieConsentBanner" class="cookie-banner" style="display: none;">
-  <p style="color: var(--text-color); font-family: 'Playfair Display', serif; font-size: 16px;">
+  <p data-i18n="cookiesBannerText" style="color: var(--text-color); font-family: 'Playfair Display', serif; font-size: 16px;">
     Ce site utilise des cookies pour améliorer votre expérience. En continuant, vous acceptez notre
     <a href="confidentialite.html" style="color: var(--link-color);">politique de confidentialité</a>.
   </p>
   <div>
-    <button class="cookie-btn filled" onclick="acceptCookies()">Accepter</button>
-    <button class="cookie-btn outline" onclick="declineCookies()">Refuser</button>
+    <button class="cookie-btn filled" onclick="acceptCookies()" data-i18n="cookiesAccept">Accepter</button>
+    <button class="cookie-btn outline" onclick="declineCookies()" data-i18n="cookiesDecline">Refuser</button>
   </div>
 </div>
 
@@ -91,15 +91,15 @@
     <footer class="footer">
     <div class="footer-container">
         <div class="footer-column">
-            <a href="confidentialite.html">Politique de confidentialité</a>
-            <a href="cookies.html">Cookies</a>
-        </div>
-        <div class="footer-column">
-            <a href="conditions.html">Conditions d'utilisation</a>
-            <a href="mentions.html">Mentions légales</a>
-        </div>
-        <div class="footer-column">
-            <p>&copy; 2025 Aaron Protection</p>
+            <a href="confidentialite.html" data-i18n="footerPrivacy">Politique de confidentialité</a>
+        <a href="cookies.html" data-i18n="footerCookies">Cookies</a>
+      </div>
+      <div class="footer-column">
+        <a href="conditions.html" data-i18n="footerTerms">Conditions d'utilisation</a>
+        <a href="mentions.html" data-i18n="footerLegal">Mentions légales</a>
+      </div>
+      <div class="footer-column">
+        <p data-i18n="footerCopy">&copy; 2025 Aaron Protection</p>
 
         </div>
     </div>

@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/support-technique.css">
   <script src="js/services.js" defer></script>
+  <script src="js/lang.js" defer></script>
 </head>
 <body>
    <header>
@@ -40,44 +41,44 @@
     </nav>
 
   <div class="container">
-    <h1>Support Technique</h1>
-    <p>Vous rencontrez un problème avec nos services ou avez une question technique ? Remplissez le formulaire ci-dessous et notre équipe vous répondra dans les plus brefs délais.</p>
+    <h1 data-i18n="supportTitle">Support Technique</h1>
+    <p data-i18n="supportIntro">Vous rencontrez un problème avec nos services ou avez une question technique ? Remplissez le formulaire ci-dessous et notre équipe vous répondra dans les plus brefs délais.</p>
 
-    <form action="/envoyer-demande-support" method="post">
-      <label for="nom">Nom complet</label>
-      <input type="text" id="nom" name="nom" placeholder="Votre nom complet" required>
+    <form action="/api/support" method="post">
+  <label for="nom" data-i18n="labelName">Nom complet</label>
+  <input type="text" id="nom" data-i18n="placeholderName" name="fullname" placeholder="Votre nom complet" required>
 
-      <label for="email">Adresse e-mail</label>
-      <input type="email" id="email" name="email" placeholder="votremail@example.com" required>
+  <label for="email" data-i18n="labelEmail">Adresse e-mail</label>
+  <input type="email" id="email" data-i18n="placeholderEmail" name="email" placeholder="votremail@example.com" required>
 
-      <label for="sujet">Sujet de votre demande</label>
-      <input type="text" id="sujet" name="sujet" placeholder="Sujet" required>
+  <label for="sujet" data-i18n="labelSubject">Sujet de votre demande</label>
+  <input type="text" id="sujet" data-i18n="placeholderSubject" name="subject" placeholder="Sujet" required>
 
-      <label for="message">Description du problème</label>
-      <textarea id="message" name="message" rows="6" placeholder="Décrivez votre problème ici..." required></textarea>
+  <label for="message" data-i18n="labelMessage">Description du problème</label>
+  <textarea id="message" data-i18n="placeholderMessage" name="message" rows="6" placeholder="Décrivez votre problème ici..." required></textarea>
 
-      <button type="submit">Envoyer ma demande</button>
-    </form>
+  <button type="submit" data-i18n="buttonSubmit">Envoyer ma demande</button>
+</form>
 
     <div class="faq">
-      <h2>Foire aux Questions</h2>
+      <h2 data-i18n="faqTitle">Foire aux Questions</h2>
 
       <div class="faq-item">
-        <h3>Comment suivre l'état de ma demande de support ?</h3>
-        <p>Une fois votre demande envoyée, vous recevrez un e-mail de confirmation avec un numéro de ticket. Vous pouvez nous répondre directement par e-mail pour suivre l’évolution.</p>
+        <h3 data-i18n="faq1Question">Comment suivre l'état de ma demande de support ?</h3>
+        <p data-i18n="faq1Answer">Une fois votre demande envoyée, vous recevrez un e-mail de confirmation avec un numéro de ticket. Vous pouvez nous répondre directement par e-mail pour suivre l’évolution.</p>
       </div>
 
       <div class="faq-item">
-        <h3>Quels types de problèmes sont traités ?</h3>
-        <p>Nous répondons à toute demande liée à la sécurité, l’accès au compte, les erreurs techniques, les paiements, ou tout comportement suspect sur votre interface Aaron Protection.</p>
+        <h3 data-i18n="faq2Question">Quels types de problèmes sont traités ?</h3>
+        <p data-i18n="faq2Answer">Nous répondons à toute demande liée à la sécurité, l’accès au compte, les erreurs techniques, les paiements, ou tout comportement suspect sur votre interface Aaron Protection.</p>
       </div>
 
       <div class="faq-item">
-        <h3>En combien de temps puis-je espérer une réponse ?</h3>
-        <p>Nous nous engageons à répondre à toutes les demandes dans un délai de 24 à 48 heures ouvrables.</p>
+        <h3 data-i18n="faq3Question">En combien de temps puis-je espérer une réponse ?</h3>
+        <p data-i18n="faq3Answer">Nous nous engageons à répondre à toutes les demandes dans un délai de 24 à 48 heures ouvrables.</p>
       </div>
 
-      <p>Vous pouvez aussi consulter notre <a href="/faq.html">FAQ complète</a> ou lire notre <a href="confidentialite.html">politique de confidentialité</a>.</p>
+      <p data-i18n="faqMore">Vous pouvez aussi lire notre <a href="confidentialite.html">politique de confidentialité</a>.</p>
     </div>
   </div>
 <div class="custom-cursor"></div>
@@ -85,19 +86,52 @@
     <footer class="footer">
     <div class="footer-container">
         <div class="footer-column">
-            <a href="confidentialite.html">Politique de confidentialité</a>
-            <a href="cookies.html">Cookies</a>
-        </div>
-        <div class="footer-column">
-            <a href="conditions.html">Conditions d'utilisation</a>
-            <a href="mentions.html">Mentions légales</a>
-        </div>
-        <div class="footer-column">
-            <p>&copy; 2025 Aaron Protection</p>
+            <a href="confidentialite.html" data-i18n="footerPrivacy">Politique de confidentialité</a>
+        <a href="cookies.html" data-i18n="footerCookies">Cookies</a>
+      </div>
+      <div class="footer-column">
+        <a href="conditions.html" data-i18n="footerTerms">Conditions d'utilisation</a>
+        <a href="mentions.html" data-i18n="footerLegal">Mentions légales</a>
+      </div>
+      <div class="footer-column">
+        <p data-i18n="footerCopy">&copy; 2025 Aaron Protection</p>
 
         </div>
     </div>
 </footer>
+
+<script>
+document.querySelector('form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = new FormData(form);
+  const values = Object.fromEntries(data.entries());
+
+  try {
+    const response = await fetch('/api/support', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert(result.message); // Affiche une popup avec le message "Your request has been successfully sent."
+      form.reset(); // Réinitialise le formulaire
+    } else {
+      alert('An error occurred: ' + result.error);
+    }
+  } catch (err) {
+    alert('An unexpected error occurred.');
+    console.error(err);
+  }
+});
+</script>
+
 
 </body>
 </html>

@@ -9,6 +9,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -29,3 +30,7 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Serveur en cours sur http://localhost:${PORT}`));
+
+
+const supportRoute = require('./routes/support');
+app.use('/api', supportRoute);

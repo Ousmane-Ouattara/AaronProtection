@@ -5,38 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Aaron Protection</title>
   <link rel="stylesheet" href="css/contact.css" />
-  <script src="/js/services.js" defer></script>
+  <script src="js/services.js" defer></script>
+  <script src="js/lang.js" defer></script>
 </head>
 <body>
+  <a href="services.html" class="back-button" data-i18n="back">← Retour</a>
   <div class="contact-container">
-    <h1>Renseignement</h1>
+    <h1 data-i18n="contactTitle">Renseignement</h1>
     <form id="contact-form">
-      <label for="lastname">Nom</label>
+      <label for="lastname" data-i18n="lastname">Nom</label>
       <input type="text" id="lastname" name="lastname" required />
 
-      <label for="firstname">Prénom</label>
+      <label for="firstname" data-i18n="firstname">Prénom</label>
       <input type="text" id="firstname" name="firstname" required />
 
-      <label for="phone">Numéro de téléphone</label>
+      <label for="phone" data-i18n="phone">Numéro de téléphone</label>
       <input type="tel" id="phone" name="phone" required />
 
-      <label for="email">Adresse email</label>
+      <label for="email" data-i18n="email">Adresse email</label>
       <input type="email" id="email" name="email" required />
 
-      <label for="location">Lieu</label>
+      <label for="location" data-i18n="location">Lieu</label>
       <input type="text" id="location" name="location" required />
 
-      <label for="details">Détails à savoir (horaires, date, contexte...)</label>
+      <label for="details" data-i18n="details">Détails à savoir (horaires, date, contexte...)</label>
       <textarea id="details" name="details" rows="6" required></textarea>
 
-      <button type="submit">Envoyer la demande</button>
+      <button type="submit" data-i18n="sendRequest">Envoyer la demande</button>
     </form>
 
   <!-- Modal de confirmation -->
   <div id="modal-confirm" class="modal hidden">
     <div class="modal-content">
-      <p>Votre demande sera analysée.<br>Nous vous contacterons par mail ou téléphone.</p>
-      <button id="modal-close-btn">Fermer</button>
+      <p data-i18n="modalMessage">Votre demande sera analysée.<br>Nous vous contacterons par mail ou téléphone.</p>
+      <button id="modal-close-btn" data-i18n="closeModal">Fermer</button>
     </div>
   </div>
 
