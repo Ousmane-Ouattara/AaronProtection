@@ -168,6 +168,9 @@
   "modalMessage": "Votre demande sera analysée.<br>Nous vous contacterons par mail ou téléphone.",
   "closeModal": "Fermer",
 
+  "legal7Title": "7. Autorisation CNAPS",
+  "legal7Content": "Autorisation administrative N° : <strong>AUT-077-2122-07-31-20230360362</strong><br>Délivrée le 31/07/2023 par le CNAPS conformément à l’article L 612-9 et suivants du code de la sécurité intérieure.<br><br>« L’autorisation d’exercice ne confère aucune prérogative de puissance publique à l’entreprise ou aux personnes qui en bénéficient ». (art. L612-14 du CSI)",
+
   "footerPrivacy": "Politique de confidentialité",
   "footerCookies": "Cookies",
   "footerTerms": "Conditions d'utilisation",

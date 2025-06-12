@@ -2,10 +2,10 @@
   "name": "site-aaron",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "live-server --port=8080 --host=0.0.0.0",
+    "start": "node server.js",
     "devStart": "nodemon server.js"
   },
   "keywords": [],

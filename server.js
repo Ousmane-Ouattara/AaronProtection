@@ -7,30 +7,34 @@ const path = require('path');
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Connexion à MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ MongoDB connecté'))
-  .catch((err) => console.error('❌ Erreur MongoDB :', err));
+mongoose.connect(process.env.MONGODB_URI, {
+})
+.then(() => console.log('✅ MongoDB connecté'))
+.catch((err) => console.error('❌ Erreur MongoDB :', err));
 
-// API routes
+// Routes
 const contactRoute = require('./routes/contact');
-app.use('/api', contactRoute);
+const supportRoute = require('./routes/support');
 
-// Sert tous les fichiers HTML, CSS, JS, etc. depuis la racine du projet
-app.use(express.static(__dirname));
+app.use('/api/contact', contactRoute);  // pour le formulaire de contact
+app.use('/api/support', supportRoute);  // pour le support technique
 
-// Redirige '/' vers index.html
+// Sert les fichiers statiques (optionnel si tu n’as pas besoin de servir de HTML depuis backend)
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Serveur en cours sur http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Serveur en ligne sur le port ${PORT}`);
+});
 
 
-const supportRoute = require('./routes/support');
-app.use('/api', supportRoute);

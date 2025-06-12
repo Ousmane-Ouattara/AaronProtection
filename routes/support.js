@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const SupportRequest = require('../models/SupportRequest');
 
-// Exemple simple avec fullname, email, subject, message
-router.post('/support', async (req, res) => {
+router.post('/', async (req, res) => {
   const { fullname, email, subject, message } = req.body;
 
   if (!fullname || !email || !subject || !message) {
@@ -11,6 +11,10 @@ router.post('/support', async (req, res) => {
   }
 
   try {
+    // Enregistre dans la base
+    const newRequest = new SupportRequest({ fullname, email, subject, message });
+    await newRequest.save();
+
     // Envoi d'e-mail
     const transporter = nodemailer.createTransport({
       service: 'gmail',

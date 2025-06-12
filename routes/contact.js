@@ -4,7 +4,7 @@ const Contact = require('../models/Contact');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-router.post('/contact', async (req, res) => {
+router.post('/', async (req, res) => {
   const { lastname, firstname, phone, email, location, details } = req.body;
 
   try {
