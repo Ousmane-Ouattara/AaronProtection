@@ -652,3 +652,85 @@ section.fade-out {
   scrollbar-color: #4b4b49 #0e0e0e;
 }
 
+
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 20px;
+  }
+
+  .logo {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .menu,
+  .dealer {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+
+  #hamburger-menu {
+    width: 100%; /* largeur entière sur mobile */
+    padding-top: 60px;
+  }
+
+  .services-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .service-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .service-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  .background-video {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+  }
+
+  video {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+  .services-header h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .services-header p {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-column {
+    margin-bottom: 10px;
+  }
+}
+
+
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
