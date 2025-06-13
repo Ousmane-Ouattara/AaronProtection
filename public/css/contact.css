@@ -107,3 +107,28 @@ button:hover {
 .back-button:hover {
   background-color: #444;
 }
+
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none !important;
+ }
+}
+
+@media (max-width: 768px) {
+  #hamburger-menu {
+  width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .language-dropdown {
+    left: auto;
+    right: 0;
+   
+  }
+  
+  .language-dropdown {
+    min-width: 140px;
+    width: auto;
+  }
+}

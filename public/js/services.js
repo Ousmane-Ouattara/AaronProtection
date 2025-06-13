@@ -4,6 +4,8 @@ window.addEventListener('scroll', () => {
   const menu = document.querySelector('.menu');
   const dealer = document.querySelector('.dealer');
   
+
+  
   if (window.scrollY > 50) {
     bgBar.classList.add('visible');
     menu.classList.add('scrolled');
@@ -225,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dropdown.style.display = 'none';
   });
 });
+
 
   });
 });

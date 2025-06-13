@@ -460,3 +460,160 @@ button:hover, .btn:hover {
   scrollbar-width: thin;
   scrollbar-color: #4b4b49 #0e0e0e;
 }
+
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none !important;
+ }
+}
+
+@media (max-width: 768px) {
+  #hamburger-menu {
+  width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .language-dropdown {
+    left: auto;
+    right: 0;
+   
+  }
+  
+  .language-dropdown {
+    min-width: 140px;
+    width: auto;
+  }
+
+
+.dealer-label span[data-i18n="languages"] {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu {
+    order: 1;
+    font-size: 28px;
+    padding-left: 25px;
+  }
+
+  .logo {
+    order: 2;
+    
+
+    /* Centrer le logo ou laisser normal */
+  }
+
+  .dealer {
+    order: 3;
+    font-size: 18px;
+    padding-right: 45px;
+  }
+
+  /* Cacher le mot Languages, garder l’icône 🌐 seulement */
+  .dealer-label span[data-i18n="languages"] {
+    display: none;
+  }
+
+  .menu span {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Ajustement du header pour mobile */
+  header {
+    padding: 0 20px;
+  }
+  
+  header .dealer {
+    margin-right: 20px;
+  }
+  
+  /* Menu hamburger adapté pour mobile */
+  #hamburger-menu {
+    width: 50%;
+  }
+  
+  /* Container principal poussé à gauche */
+  .container {
+    margin-top: 80px;
+    margin-left: 20px;
+    margin-right: 40px;
+    padding-right: 0;
+  }
+  
+  /* Tous les éléments de contenu alignés à gauche */
+  h1, h2, h3 {
+    text-align: left;
+    margin-left: 0;
+  }
+  
+  p, li {
+    text-align: left;
+    margin-left: 0;
+  }
+  
+  ul {
+    padding-left: 1rem;
+  }
+  
+  /* Boutons alignés à gauche */
+  button, .btn {
+    margin: 10px 0 10px 0;
+    display: inline-block;
+  }
+  
+  .section {
+    margin-top: 40px;
+    text-align: left;
+  }
+  
+  /* Cookie banner adapté */
+  .cookie-banner {
+    flex-direction: column;
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .cookie-btn {
+    padding: 12px 30px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  /* Footer reste centré */
+  .footer-container {
+    padding: 0 20px;
+    flex-direction: column;
+  }
+  
+  .footer-column {
+    margin: 10px 0;
+  }
+}
+
+/* Pour les très petits écrans */
+@media (max-width: 480px) {
+  .container {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  header {
+    padding: 0 15px;
+  }
+  
+  header .dealer {
+    margin-right: 10px;
+  }
+  
+  #hamburger-menu {
+    width: 100%;
+  }
+  
+  body {
+    font-size: 16px;
+  }
+}

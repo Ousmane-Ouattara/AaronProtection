@@ -52,6 +52,7 @@ header {
 .menu,
 .dealer {
   color: rgb(255, 255, 255);
+  position: relative;
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
@@ -652,85 +653,75 @@ section.fade-out {
   scrollbar-color: #4b4b49 #0e0e0e;
 }
 
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
 
-@media screen and (max-width: 768px) {
-  header {
-    flex-direction: column;
-    height: auto;
-    padding: 10px 20px;
+@media (max-width: 768px) {
+  .menu {
+    order: 1;
+    font-size: 24px;
   }
 
   .logo {
-    width: 100%;
-    margin: 10px 0;
+    order: 2;
+    /* Centrer le logo ou laisser normal */
   }
 
-  .menu,
   .dealer {
-    font-size: 14px;
-    margin: 5px 0;
+    order: 3;
+    font-size: 18px;
   }
 
-  #hamburger-menu {
-    width: 100%; /* largeur entière sur mobile */
-    padding-top: 60px;
+  /* Cacher le mot Languages, garder l’icône 🌐 seulement */
+  .dealer-label span[data-i18n="languages"] {
+    display: none;
   }
+}
 
-  .services-container {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-  }
-
-  .service-card {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .service-image img {
-    width: 100%;
-    height: auto;
-  }
-
+@media (max-width: 768px) {
+  #background-video, 
   .background-video {
-    object-fit: cover;
-    width: 100%;
-    height: auto;
+    max-height: 800px; /* plus petit sur petit écran */
   }
+}
 
-  video {
+@media (max-width: 768px) {
+  .menu {
+    font-size: 30px; /* Plus petit que 24px précédemment */
+    padding: 1px 1px;
+  }
+  
+  /* Pour que le "MENU" soit caché (tu veux juste l’icône ?) */
+  .menu span {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  #main2 h2 {
+    white-space: nowrap;
+    font-size: 28px; /* Taille plus petite sur mobile */
+  }
+}
+
+@media (max-width: 768px) {
+  #hamburger-menu {
   width: 100%;
-  height: auto;
-  max-height: 400px;
-  object-fit: cover;
-}
-
-  .services-header h2 {
-    font-size: 24px;
-    text-align: center;
-  }
-
-  .services-header p {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .footer-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-  }
-
-  .footer-column {
-    margin-bottom: 10px;
   }
 }
 
-
-.services-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+@media (max-width: 768px) {
+  .language-dropdown {
+    left: auto;
+    right: 0;
+   
+  }
+  
+  .language-dropdown {
+    min-width: 140px;
+    width: auto;
+  }
 }

@@ -427,3 +427,57 @@ button:hover ~ .custom-cursor {
   scrollbar-width: thin;
   scrollbar-color: #4b4b49 #0e0e0e;
 }
+
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none !important;
+ }
+}
+
+@media (max-width: 768px) {
+  #hamburger-menu {
+  width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .language-dropdown {
+    left: auto;
+    right: 0;
+   
+  }
+  
+  .language-dropdown {
+    min-width: 140px;
+    width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu {
+    order: 1;
+    font-size: 24px;
+  }
+
+  .logo {
+    order: 2;
+    margin-right: 70px;
+
+    /* Centrer le logo ou laisser normal */
+  }
+
+  .dealer {
+    order: 3;
+    font-size: 18px;
+  }
+
+  /* Cacher le mot Languages, garder l’icône 🌐 seulement */
+  .dealer-label span[data-i18n="languages"] {
+    display: none;
+  }
+
+  .menu span {
+    display: none;
+  }
+}
+
