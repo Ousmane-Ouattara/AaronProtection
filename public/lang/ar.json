@@ -173,10 +173,32 @@
   "footerLegal": "الإشعارات القانونية",
   "footerCopy": "© 2025 آرون بروتيكشن",
 
+
+  "badge2": "VIP",
+  "secureTitle2": "نقل آمن",
+  "secureDesc2": "تضمن مركباتنا المدرعة وسائقونا المدربون تنقلاتكم بأقصى درجات الأمان. خدمة راقية مخصصة للشخصيات والدبلوماسيين والمديرين أو الأفراد ذوي المتطلبات العالية.",
+  "item6": "✔ سائقون مدربون على بروتوكولات الطوارئ",
+  "item7": "✔ سيارات مصفحة فاخرة (مرسيدس، لكزس، كاديلاك)",
+  "item8": "✔ مسارات محددة ومدروسة مسبقًا",
+  "item9": "✔ تنسيق لحظي مع مركز الإشراف لدينا",
+  "item10": "✔ خدمات متوفرة 24/24 في جميع أنحاء أوروبا",
+  "btnContact2": "اتصل بنا",
+
   "lang_fr": "الفرنسية",
   "lang_en": "الإنجليزية",
   "lang_es": "الإسبانية",
   "lang_ar": "العربية",
   "lang_ch": "الماندرين",
-  "lang_ru": "الروسية"
+  "lang_ru": "الروسية",
+
+  "transportTitle": "النقل الآمن – Aaron Protection",
+  "supportTitle2": "الدعم الفني – Aaron Protection",
+  "servicesTitle": "الخدمات – Aaron Protection",
+  "secureTitle3": "الحماية القريبة – Aaron Protection",
+  "mentionsTitle": "الإشعارات القانونية – Aaron Protection",
+  "interventionTitle2": "مجالات التدخل – Aaron Protection",
+  "cookiesTitle2": "سياسة ملفات تعريف الارتباط – Aaron Protection",
+  "contactTitle2": "اتصل – Aaron Protection",
+  "confidentialiteTitle": "سياسة الخصوصية – Aaron Protection",
+  "conditionsTitle": "شروط الاستخدام – Aaron Protection"
 }

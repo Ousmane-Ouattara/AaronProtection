@@ -173,11 +173,32 @@
   "footerLegal": "Legal Notice",
   "footerCopy": "© 2025 Aaron Protection",
 
+  "badge2": "VIP",
+  "secureTitle2": "SECURE TRANSPORT",
+  "secureDesc2": "Our armored vehicles and highly trained drivers ensure your journeys are safe. A prestigious service tailored to VIPs, diplomats, executives, or demanding individuals.",
+  "item6": "✔ Security-trained drivers with emergency protocol expertise",
+  "item7": "✔ High-end armored vehicles (Mercedes, Lexus, Cadillac)",
+  "item8": "✔ Predefined and analyzed routes",
+  "item9": "✔ Real-time coordination with our monitoring center",
+  "item10": "✔ 24/7 services available throughout Europe",
+  "btnContact2": "CONTACT US",
+
   "lang_fr": "French",
   "lang_en": "English",
   "lang_es": "Spanish",
   "lang_ar": "Arabic",
   "lang_ch": "Mandarin",
-  "lang_ru": "Russian"
+  "lang_ru": "Russian",
+
+  "transportTitle": "Secure Transport – Aaron Protection",
+  "supportTitle2": "Technical Support – Aaron Protection",
+  "servicesTitle": "Services – Aaron Protection",
+  "secureTitle3": "Close Protection – Aaron Protection",
+  "mentionsTitle": "Legal Notice – Aaron Protection",
+  "interventionTitle2": "Fields of Operation – Aaron Protection",
+  "cookiesTitle2": "Cookie Policy – Aaron Protection",
+  "contactTitle2": "Contact – Aaron Protection",
+  "confidentialiteTitle": "Privacy Policy – Aaron Protection",
+  "conditionsTitle": "Terms of Use – Aaron Protection"
 }
 

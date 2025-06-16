@@ -173,10 +173,32 @@
   "footerLegal": "Aviso Legal",
   "footerCopy": "© 2025 Aaron Protection",
 
+
+  "badge2": "VIP",
+  "secureTitle2": "TRANSPORTE SEGURO",
+  "secureDesc2": "Nuestros vehículos blindados y conductores altamente cualificados garantizan su seguridad durante los desplazamientos. Un servicio de prestigio adaptado a personalidades, diplomáticos, ejecutivos o clientes exigentes.",
+  "item6": "✔ Conductores formados en protocolos de seguridad",
+  "item7": "✔ Vehículos blindados de alta gama (Mercedes, Lexus, Cadillac)",
+  "item8": "✔ Itinerarios definidos y analizados previamente",
+  "item9": "✔ Coordinación en tiempo real con nuestro centro de supervisión",
+  "item10": "✔ Servicios disponibles las 24 horas en toda Europa",
+  "btnContact2": "CONTÁCTENOS",
+
   "lang_fr": "Francés",
   "lang_en": "Inglés",
   "lang_es": "Español",
   "lang_ar": "Árabe",
   "lang_ch": "Mandarín",
-  "lang_ru": "Ruso"
+  "lang_ru": "Ruso",
+
+  "transportTitle": "Transporte Seguro – Aaron Protection",
+  "supportTitle2": "Soporte Técnico – Aaron Protection",
+  "servicesTitle": "Servicios – Aaron Protection",
+  "secureTitle3": "Protección Cercana – Aaron Protection",
+  "mentionsTitle": "Aviso Legal – Aaron Protection",
+  "interventionTitle2": "Ámbitos de Intervención – Aaron Protection",
+  "cookiesTitle2": "Política de Cookies – Aaron Protection",
+  "contactTitle2": "Contacto – Aaron Protection",
+  "confidentialiteTitle": "Política de Privacidad – Aaron Protection",
+  "conditionsTitle": "Condiciones de Uso – Aaron Protection"
 }

@@ -174,10 +174,32 @@
   "footerLegal": "Юридические сведения",
   "footerCopy": "© 2025 Aaron Protection",
 
+
+  "badge2": "VIP",
+  "secureTitle2": "БЕЗОПАСНАЯ ТРАНСПОРТИРОВКА",
+  "secureDesc2": "Наши бронированные автомобили и высококвалифицированные водители обеспечат вам безопасные поездки. Престижный сервис для VIP-персон, дипломатов, руководителей и требовательных клиентов.",
+  "item6": "✔ Водители-охранники, обученные экстренным протоколам",
+  "item7": "✔ Бронированные автомобили премиум-класса (Mercedes, Lexus, Cadillac)",
+  "item8": "✔ Маршруты заранее определены и проанализированы",
+  "item9": "✔ Координация в реальном времени с нашим центром наблюдения",
+  "item10": "✔ Услуги доступны круглосуточно по всей Европе",
+  "btnContact2": "СВЯЖИТЕСЬ С НАМИ",
+
   "lang_fr": "Французский",
   "lang_en": "Английский",
   "lang_es": "Испанский",
   "lang_ar": "Арабский",
   "lang_ch": "Мандаринский",
-  "lang_ru": "Русский"
+  "lang_ru": "Русский",
+
+  "transportTitle": "Безопасная транспортировка – Aaron Protection",
+  "supportTitle2": "Техническая поддержка – Aaron Protection",
+  "servicesTitle": "Услуги – Aaron Protection",
+  "secureTitle3": "Близкая охрана – Aaron Protection",
+  "mentionsTitle": "Юридическая информация – Aaron Protection",
+  "interventionTitle2": "Области вмешательства – Aaron Protection",
+  "cookiesTitle2": "Политика использования файлов cookie – Aaron Protection",
+  "contactTitle2": "Контакт – Aaron Protection",
+  "confidentialiteTitle": "Политика конфиденциальности – Aaron Protection",
+  "conditionsTitle": "Условия использования – Aaron Protection"
 }

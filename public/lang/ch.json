@@ -173,10 +173,31 @@
   "footerLegal": "法律声明",
   "footerCopy": "© 2025 阿隆保护",
 
+  "badge2": "VIP",
+  "secureTitle2": "安全运输",
+  "secureDesc2": "我们的装甲车辆和高素质司机确保您的出行安全。尊贵服务，专为名人、外交官、高管或高要求人士量身打造。",
+  "item6": "✔ 司机为安全特工，接受紧急应对培训",
+  "item7": "✔ 高端装甲车辆（奔驰、雷克萨斯、凯迪拉克）",
+  "item8": "✔ 预先规划并分析路线",
+  "item9": "✔ 与我们的监控中心实时协调",
+  "item10": "✔ 全欧洲范围内全天候提供服务",
+  "btnContact2": "联系我们",
+
   "lang_fr": "法语",
   "lang_en": "英语",
   "lang_es": "西班牙语",
   "lang_ar": "阿拉伯语",
   "lang_ch": "普通话",
-  "lang_ru": "俄语"
+  "lang_ru": "俄语",
+
+  "transportTitle": "安全运输 – Aaron Protection",
+  "supportTitle2": "技术支持 – Aaron Protection",
+  "servicesTitle": "服务 – Aaron Protection",
+  "secureTitle3": "贴身保护 – Aaron Protection",
+  "mentionsTitle": "法律声明 – Aaron Protection",
+  "interventionTitle2": "干预范围 – Aaron Protection",
+  "cookiesTitle2": "Cookie 政策 – Aaron Protection",
+  "contactTitle2": "联系我们 – Aaron Protection",
+  "confidentialiteTitle": "隐私政策 – Aaron Protection",
+  "conditionsTitle": "使用条款 – Aaron Protection"
 }
