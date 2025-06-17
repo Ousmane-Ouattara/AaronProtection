@@ -20,19 +20,23 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
-          "'unsafe-inline'", // Autorise les <script> inline
-          "'unsafe-eval'",   // Requis pour certains frameworks (si tu n'en as pas besoin, supprime)
+          "'unsafe-inline'", 
+          "'unsafe-eval'",   
           "cdn.jsdelivr.net",
           "cdnjs.cloudflare.com",
-          "unpkg.com"
+          "unpkg.com",
+          "https://www.google.com",
+          "https://www.gstatic.com",
+          "https://www.recaptcha.net"  // Ajouté pour reCAPTCHA
         ],
-        scriptSrcAttr: ["'unsafe-inline'", "'unsafe-hashes'"], // <- clé pour autoriser les onClick, etc.
+        scriptSrcAttr: ["'unsafe-inline'", "'unsafe-hashes'"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
           "fonts.googleapis.com",
           "cdn.jsdelivr.net",
-          "cdnjs.cloudflare.com"
+          "cdnjs.cloudflare.com",
+          "https://www.gstatic.com"
         ],
         fontSrc: [
           "'self'",
@@ -40,11 +44,20 @@ app.use(
         ],
         imgSrc: [
           "'self'",
-          "data:"
+          "data:",
+          "https://www.google.com",     // Pour les images reCAPTCHA
+          "https://www.gstatic.com"
         ],
         connectSrc: [
           "'self'",
-          "http://localhost:3000"
+          "http://localhost:3000",
+          "https://aaronprotection.onrender.com",  // Votre API
+          "https://www.google.com",                // Pour reCAPTCHA
+          "https://www.recaptcha.net"
+        ],
+        frameSrc: [
+          "https://www.google.com",     // Important pour reCAPTCHA
+          "https://www.recaptcha.net"
         ],
         frameAncestors: ["'none'"]
       }

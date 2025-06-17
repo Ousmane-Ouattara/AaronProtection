@@ -2,10 +2,32 @@ const express = require('express');
 const router = express.Router();
 const Contact = require('../models/Contact');
 const nodemailer = require('nodemailer');
+const fetch = require('node-fetch');
 require('dotenv').config();
 
 router.post('/', async (req, res) => {
-  const { lastname, firstname, phone, email, location, details } = req.body;
+  const { lastname, firstname, phone, email, location, details, website, timestamp, 'g-recaptcha-response': token } = req.body;
+
+// 🛡 Anti-spam : honeypot
+if (website) return res.status(400).json({ error: 'Spam détecté (honeypot).' });
+
+// 🛡 Anti-bot : reCAPTCHA
+if (!token) return res.status(400).json({ error: 'reCAPTCHA manquant.' });
+
+const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: `secret=${process.env.RECAPTCHA_SECRET}&response=${token}`
+});
+const recaptchaData = await recaptchaRes.json();
+if (!recaptchaData.success) {
+  return res.status(400).json({ error: 'Échec de la vérification reCAPTCHA.' });
+}
+
+// ⏱ Anti-abus : envoi trop rapide
+if (Date.now() - parseInt(timestamp) < 1000) {
+  return res.status(400).json({ error: 'Envoi trop rapide détecté.' });
+}
 
   try {
     // Enregistrement en base MongoDB

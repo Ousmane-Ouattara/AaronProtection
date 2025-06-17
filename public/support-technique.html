@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-i18n="supportTitle2">Support Technique – Aaron Protection</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/support-technique.css">
   <script src="js/services.js" defer></script>
@@ -44,7 +45,7 @@
     <h1 data-i18n="supportTitle">Support Technique</h1>
     <p data-i18n="supportIntro">Vous rencontrez un problème avec nos services ou avez une question technique ? Remplissez le formulaire ci-dessous et notre équipe vous répondra dans les plus brefs délais.</p>
 
-    <form action="/api/support" method="post">
+    <form id="support-form">
   <label for="nom" data-i18n="labelName">Nom complet</label>
   <input type="text" id="nom" data-i18n="placeholderName" name="fullname" placeholder="Votre nom complet" required>
 
@@ -56,6 +57,10 @@
 
   <label for="message" data-i18n="labelMessage">Description du problème</label>
   <textarea id="message" data-i18n="placeholderMessage" name="message" rows="6" placeholder="Décrivez votre problème ici..." required></textarea>
+
+  <input type="hidden" name="timestamp" id="timestamp">
+  <input type="text" name="website" style="display:none;">
+  <div class="g-recaptcha" data-sitekey="6LfA22MrAAAAAOUpwLuJSx0ARApcc5PyC4uVnPA9"></div>
 
   <button type="submit" data-i18n="buttonSubmit">Envoyer ma demande</button>
 </form>
@@ -101,15 +106,28 @@
 </footer>
 
 <script>
-document.querySelector('form').addEventListener('submit', async (e) => {
+document.querySelector('#support-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const form = e.target;
   const data = new FormData(form);
   const values = Object.fromEntries(data.entries());
 
+  if (values.website && values.website !== "") {
+    alert("Formulaire invalide (spam détecté).");
+    return;
+  }
+
+  const recaptchaResponse = grecaptcha.getResponse();
+  if (!recaptchaResponse) {
+    alert("Veuillez valider le reCAPTCHA.");
+    return;
+  }
+
+  values['g-recaptcha-response'] = recaptchaResponse;
+
   try {
-    const response = await fetch('/api/support', {
+    const response = await fetch('https://aaronprotection.onrender.com/api/support', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -120,13 +138,14 @@ document.querySelector('form').addEventListener('submit', async (e) => {
     const result = await response.json();
 
     if (response.ok) {
-      alert(result.message); // Affiche une popup avec le message "Your request has been successfully sent."
-      form.reset(); // Réinitialise le formulaire
+      alert(result.message);
+      form.reset();
+      grecaptcha.reset(); // Réinitialise reCAPTCHA
     } else {
-      alert('An error occurred: ' + result.error);
+      alert('Erreur : ' + result.error);
     }
   } catch (err) {
-    alert('An unexpected error occurred.');
+    alert('Une erreur inattendue est survenue.');
     console.error(err);
   }
 });

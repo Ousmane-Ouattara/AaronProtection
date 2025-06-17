@@ -1,10 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const fetch = require('node-fetch');
 const SupportRequest = require('../models/SupportRequest');
 
 router.post('/', async (req, res) => {
-  const { fullname, email, subject, message } = req.body;
+  const { fullname, email, subject, message, website, timestamp, 'g-recaptcha-response': token } = req.body;
+
+// Honeypot anti-spam
+if (website) return res.status(400).json({ error: 'Spam détecté (honeypot).' });
+
+// Vérif reCAPTCHA
+if (!token) return res.status(400).json({ error: 'reCAPTCHA manquant.' });
+
+const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: `secret=${process.env.RECAPTCHA_SECRET}&response=${token}`
+});
+const recaptchaData = await recaptchaRes.json();
+if (!recaptchaData.success) {
+  return res.status(400).json({ error: 'Échec de la vérification reCAPTCHA.' });
+}
+
+// Anti-envoi trop rapide
+if (Date.now() - parseInt(timestamp) < 1000) {
+  return res.status(400).json({ error: 'Envoi trop rapide détecté.' });
+}
 
   if (!fullname || !email || !subject || !message) {
     return res.status(400).json({ error: 'Champs requis manquants' });
