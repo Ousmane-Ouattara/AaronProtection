@@ -8,20 +8,22 @@ router.post('/', async (req, res) => {
   const { lastname, firstname, phone, email, location, details } = req.body;
 
   try {
-    // Save to MongoDB
+    // Enregistrement en base MongoDB
     const newContact = new Contact({ lastname, firstname, phone, email, location, details });
     await newContact.save();
 
-    // Email config
+    // Transport mail
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS
       }
     });
 
-    // Notification email for admin
+    // Mail de notification
     const notificationMail = {
       from: `"Aaron Protection" <${process.env.MAIL_USER}>`,
       to: process.env.MAIL_RECEIVER,
@@ -40,7 +42,7 @@ ${details}
       `
     };
 
-    // Confirmation email for client
+    // Mail de confirmation client
     const confirmationMail = {
       from: `"Aaron Protection" <${process.env.MAIL_USER}>`,
       to: email,
@@ -72,7 +74,7 @@ ${details}
     res.status(200).json({ message: 'Request saved and emails sent.' });
 
   } catch (error) {
-    console.error('Error:', error);
+    console.error('❌ Erreur dans contact.js:', error);
     res.status(500).json({ error: 'An error occurred while saving or sending email.' });
   }
 });
