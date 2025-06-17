@@ -51,17 +51,50 @@
   </div>
 
   <!-- Scripts reCAPTCHA -->
-  <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   
   <script>
-    // Fonction callback pour reCAPTCHA
-    function onRecaptchaLoad() {
-      console.log('reCAPTCHA chargé');
+    // Variable pour vérifier si reCAPTCHA est chargé
+    let recaptchaLoaded = false;
+    
+    // Fonction pour vérifier si reCAPTCHA est disponible
+    function checkRecaptchaLoaded() {
+      return typeof grecaptcha !== 'undefined' && grecaptcha.render;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    // Attendre que reCAPTCHA soit chargé
+    function waitForRecaptcha() {
+      return new Promise((resolve) => {
+        if (checkRecaptchaLoaded()) {
+          resolve();
+          return;
+        }
+        
+        let attempts = 0;
+        const maxAttempts = 50; // 5 secondes max
+        
+        const interval = setInterval(() => {
+          attempts++;
+          if (checkRecaptchaLoaded()) {
+            clearInterval(interval);
+            recaptchaLoaded = true;
+            console.log('reCAPTCHA chargé avec succès');
+            resolve();
+          } else if (attempts >= maxAttempts) {
+            clearInterval(interval);
+            console.error('Timeout: reCAPTCHA non chargé');
+            resolve();
+          }
+        }, 100);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
       // Initialisation du timestamp
       document.getElementById("timestamp").value = Date.now();
+      
+      // Attendre le chargement de reCAPTCHA
+      await waitForRecaptcha();
 
       // Gestion du formulaire
       document.getElementById('contact-form').addEventListener('submit', async function(e) {
@@ -75,6 +108,12 @@
 
         // Vérification reCAPTCHA
         let recaptchaResponse;
+        
+        if (!checkRecaptchaLoaded()) {
+          alert("reCAPTCHA non chargé. Veuillez recharger la page.");
+          return;
+        }
+
         try {
           recaptchaResponse = grecaptcha.getResponse();
         } catch (error) {
@@ -128,7 +167,13 @@
 
             // Reset du formulaire et reCAPTCHA
             document.getElementById('contact-form').reset();
-            grecaptcha.reset();
+            if (checkRecaptchaLoaded()) {
+              try {
+                grecaptcha.reset();
+              } catch (e) {
+                console.warn('Impossible de reset reCAPTCHA:', e);
+              }
+            }
           } else {
             const errorText = await response.text();
             console.error('Erreur serveur:', errorText);
