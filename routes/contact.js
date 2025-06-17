@@ -19,7 +19,7 @@ const contactSchema = new mongoose.Schema({
 const Contact = mongoose.model('Contact', contactSchema);
 
 // Configuration du transporteur email
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   service: 'gmail', // ou votre service email
   auth: {
     user: process.env.EMAIL_USER, // votre email
