@@ -1,103 +1,104 @@
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/Contact');
-const nodemailer = require('nodemailer');
-const fetch = require('node-fetch');
-require('dotenv').config();
+const axios = require('axios'); // Pour vérifier reCAPTCHA
 
-router.post('/', async (req, res) => {
-  const { lastname, firstname, phone, email, location, details, website, timestamp, 'g-recaptcha-response': token } = req.body;
-
-// 🛡 Anti-spam : honeypot
-if (website) return res.status(400).json({ error: 'Spam détecté (honeypot).' });
-
-// 🛡 Anti-bot : reCAPTCHA
-if (!token) return res.status(400).json({ error: 'reCAPTCHA manquant.' });
-
-const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  body: `secret=${process.env.RECAPTCHA_SECRET}&response=${token}`
+// Schema mongoose pour sauvegarder les contacts (optionnel)
+const mongoose = require('mongoose');
+const contactSchema = new mongoose.Schema({
+  lastname: { type: String, required: true },
+  firstname: { type: String, required: true },
+  phone: { type: String, required: true },
+  email: { type: String, required: true },
+  location: { type: String, required: true },
+  details: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 });
-const recaptchaData = await recaptchaRes.json();
-if (!recaptchaData.success) {
-  return res.status(400).json({ error: 'Échec de la vérification reCAPTCHA.' });
-}
 
-// ⏱ Anti-abus : envoi trop rapide
-if (Date.now() - parseInt(timestamp) < 1000) {
-  return res.status(400).json({ error: 'Envoi trop rapide détecté.' });
-}
+const Contact = mongoose.model('Contact', contactSchema);
 
+// Route POST pour recevoir les contacts
+router.post('/', async (req, res) => {
   try {
-    // Enregistrement en base MongoDB
-    const newContact = new Contact({ lastname, firstname, phone, email, location, details });
-    await newContact.save();
+    console.log('Données reçues:', req.body);
+    
+    const { lastname, firstname, phone, email, location, details, recaptcha } = req.body;
 
-    // Transport mail
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
+    // Vérification des champs requis
+    if (!lastname || !firstname || !phone || !email || !location || !details) {
+      return res.status(400).json({ 
+        error: 'Tous les champs sont requis',
+        missing: {
+          lastname: !lastname,
+          firstname: !firstname,
+          phone: !phone,
+          email: !email,
+          location: !location,
+          details: !details
+        }
+      });
+    }
+
+    // Vérification reCAPTCHA
+    if (!recaptcha) {
+      return res.status(400).json({ error: 'reCAPTCHA manquant' });
+    }
+
+    // Vérifier reCAPTCHA avec Google
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY; // Ajoutez cette variable d'environnement
+    if (recaptchaSecret) {
+      try {
+        const recaptchaResponse = await axios.post(
+          'https://www.google.com/recaptcha/api/siteverify',
+          null,
+          {
+            params: {
+              secret: recaptchaSecret,
+              response: recaptcha
+            }
+          }
+        );
+
+        if (!recaptchaResponse.data.success) {
+          return res.status(400).json({ 
+            error: 'reCAPTCHA invalide',
+            details: recaptchaResponse.data['error-codes']
+          });
+        }
+      } catch (recaptchaError) {
+        console.error('Erreur vérification reCAPTCHA:', recaptchaError);
+        return res.status(500).json({ error: 'Erreur de vérification reCAPTCHA' });
       }
+    } else {
+      console.warn('RECAPTCHA_SECRET_KEY non définie, vérification ignorée');
+    }
+
+    // Sauvegarder en base de données
+    const newContact = new Contact({
+      lastname: lastname.trim(),
+      firstname: firstname.trim(),
+      phone: phone.trim(),
+      email: email.trim().toLowerCase(),
+      location: location.trim(),
+      details: details.trim()
     });
 
-    // Mail de notification
-    const notificationMail = {
-      from: `"Aaron Protection" <${process.env.MAIL_USER}>`,
-      to: process.env.MAIL_RECEIVER,
-      subject: 'New Protection Request',
-      text: `
-📩 New request received:
+    await newContact.save();
+    console.log('Contact sauvegardé:', newContact._id);
 
-👤 Last name: ${lastname}
-👤 First name: ${firstname}
-📞 Phone: ${phone}
-📧 Email: ${email}
-📍 Location: ${location}
-
-📝 Details:
-${details}
-      `
-    };
-
-    // Mail de confirmation client
-    const confirmationMail = {
-      from: `"Aaron Protection" <${process.env.MAIL_USER}>`,
-      to: email,
-      subject: 'Your Request Confirmation - Aaron Protection',
-      html: `
-        <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px;">
-          <h2 style="color: #1a1a1a;">Hello ${firstname},</h2>
-          <p>Your request has been successfully received by <strong>Aaron Protection</strong>.</p>
-          <p>We will carefully review your request and get back to you shortly by phone or email.</p>
-
-          <h3 style="margin-top: 20px;">📄 Summary of your request:</h3>
-          <ul>
-            <li><strong>Last name:</strong> ${lastname}</li>
-            <li><strong>First name:</strong> ${firstname}</li>
-            <li><strong>Email:</strong> ${email}</li>
-            <li><strong>Phone:</strong> ${phone}</li>
-            <li><strong>Location:</strong> ${location}</li>
-            <li><strong>Details:</strong> ${details}</li>
-          </ul>
-
-          <p style="margin-top: 30px;">Thank you for your trust.<br>The <strong>Aaron Protection</strong> team.</p>
-        </div>
-      `
-    };
-
-    await transporter.sendMail(notificationMail);
-    await transporter.sendMail(confirmationMail);
-
-    res.status(200).json({ message: 'Request saved and emails sent.' });
+    // Réponse de succès
+    res.status(200).json({ 
+      success: true, 
+      message: 'Contact enregistré avec succès',
+      id: newContact._id
+    });
 
   } catch (error) {
-    console.error('❌ Erreur dans contact.js:', error);
-    res.status(500).json({ error: 'An error occurred while saving or sending email.' });
+    console.error('Erreur serveur:', error);
+    res.status(500).json({ 
+      error: 'Erreur interne du serveur',
+      details: error.message
+    });
   }
 });
 
