@@ -92,5 +92,5 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Serveur en ligne sur le port ${PORT}`);
   console.log(`📧 Email configuré: ${process.env.EMAIL_USER ? 'Oui' : 'Non'}`);
-  console.log(`🔐 reCAPTCHA configuré: ${process.env.RECAPTCHA_SECRET_KEY ? 'Oui' : 'Non'}`);
+  console.log(`🔐 reCAPTCHA configuré: ${process.env.RECAPTCHA_SECRET ? 'Oui' : 'Non'}`);
 });
