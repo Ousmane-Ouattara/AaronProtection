@@ -18,24 +18,12 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model('Contact', contactSchema);
 
-// Configuration du transporteur email avec plus d'options
+// Configuration du transporteur email
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: 'gmail', // ou votre service email
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  },
-  // Options supplémentaires pour le debugging
-  debug: true, // Active les logs détaillés
-  logger: true // Active le logging
-});
-
-// Vérifier la configuration email au démarrage
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('❌ Erreur de configuration email:', error);
-  } else {
-    console.log('✅ Configuration email validée');
+    user: process.env.MAIL_USER, // votre email
+    pass: process.env.MAIL_PASS  // mot de passe d'application
   }
 });
 
@@ -106,12 +94,6 @@ router.post('/', async (req, res) => {
     await newContact.save();
     console.log('Contact sauvegardé:', newContact._id);
 
-    // Vérification des variables d'environnement email
-    console.log('🔍 Variables email:');
-    console.log('EMAIL_USER:', process.env.EMAIL_USER ? '✅ Défini' : '❌ Manquant');
-    console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '✅ Défini' : '❌ Manquant');
-    console.log('ADMIN_EMAIL:', process.env.ADMIN_EMAIL ? '✅ Défini' : '❌ Utilise EMAIL_USER');
-
     // Envoi d'email de notification
     const emailSubject = `Nouvelle demande de renseignement - ${firstname} ${lastname}`;
     const emailContent = `
@@ -131,72 +113,56 @@ router.post('/', async (req, res) => {
     `;
 
     // Email à vous (notification)
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: adminEmail,
+      from: process.env.MAIL_USER,
+      to: process.env.ADMIN_MAIL || process.env.MAIL_USER,
       subject: emailSubject,
       html: emailContent
     };
 
     // Email de confirmation au client
     const clientMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Confirmation of Your Request - Aaron Protection',
-      html: `
-        <h2>Request Confirmation</h2>
-        <p>Hello ${firstname},</p>
-        <p>We have successfully received your information request.</p>
-        <p><strong>Summary of your request:</strong></p>
-        <ul>
-          <li><strong>Location:</strong> ${location}</li>
-          <li><strong>Details:</strong> ${details}</li>
-        </ul>
-        <p>Our team will get back to you as soon as possible by phone (${phone}) or by email.</p>
-        <p>Best regards,<br>The Aaron Protection Team</p>
-        <hr>
-        <p><em>This is an automated message. Please do not reply to this email.</em></p>
-      `
-    };
-
-    let emailResults = {
-      notification: { sent: false, error: null },
-      confirmation: { sent: false, error: null }
-    };
+  from: process.env.MAIL_USER,
+  to: email,
+  subject: 'Confirmation of Your Request - Aaron Protection',
+  html: `
+    <h2>Request Confirmation</h2>
+    <p>Hello ${firstname},</p>
+    <p>We have successfully received your information request.</p>
+    <p><strong>Summary of your request:</strong></p>
+    <ul>
+      <li><strong>Location:</strong> ${location}</li>
+      <li><strong>Details:</strong> ${details}</li>
+    </ul>
+    <p>Our team will get back to you as soon as possible by phone (${phone}) or by email.</p>
+    <p>Best regards,<br>The Aaron Protection Team</p>
+    <hr>
+    <p><em>This is an automated message. Please do not reply to this email.</em></p>
+  `
+};
 
     try {
       // Envoyer l'email de notification
-      console.log('📧 Tentative d\'envoi email notification vers:', adminEmail);
-      const notificationResult = await transporter.sendMail(mailOptions);
-      console.log('✅ Email de notification envoyé:', notificationResult.messageId);
-      emailResults.notification.sent = true;
-    } catch (emailError) {
-      console.error('❌ Erreur envoi email notification:', emailError);
-      emailResults.notification.error = emailError.message;
-    }
+      await transporter.sendMail(mailOptions);
+      console.log('Email de notification envoyé');
 
-    try {
       // Envoyer l'email de confirmation au client
-      console.log('📧 Tentative d\'envoi email confirmation vers:', email);
-      const confirmationResult = await transporter.sendMail(clientMailOptions);
-      console.log('✅ Email de confirmation envoyé:', confirmationResult.messageId);
-      emailResults.confirmation.sent = true;
+      await transporter.sendMail(clientMailOptions);
+      console.log('Email de confirmation envoyé au client');
     } catch (emailError) {
-      console.error('❌ Erreur envoi email confirmation:', emailError);
-      emailResults.confirmation.error = emailError.message;
+      console.error('Erreur envoi email:', emailError);
+      // On continue même si l'email échoue
     }
 
-    // Réponse de succès avec statut des emails
+    // Réponse de succès
     res.status(200).json({ 
       success: true, 
       message: 'Contact enregistré avec succès',
-      id: newContact._id,
-      emailStatus: emailResults
+      id: newContact._id
     });
 
   } catch (error) {
-    console.error('❌ Erreur serveur:', error);
+    console.error('Erreur serveur:', error);
     res.status(500).json({ 
       error: 'Erreur interne du serveur',
       details: error.message
