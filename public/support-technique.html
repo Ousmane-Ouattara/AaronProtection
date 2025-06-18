@@ -106,6 +106,10 @@
 </footer>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('timestamp').value = Date.now();
+});
+
 document.querySelector('#support-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -113,11 +117,13 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
   const data = new FormData(form);
   const values = Object.fromEntries(data.entries());
 
+  // Vérification honeypot
   if (values.website && values.website !== "") {
     alert("Formulaire invalide (spam détecté).");
     return;
   }
 
+  // Vérification reCAPTCHA
   const recaptchaResponse = grecaptcha.getResponse();
   if (!recaptchaResponse) {
     alert("Veuillez valider le reCAPTCHA.");
@@ -135,18 +141,24 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
       body: JSON.stringify(values)
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const result = await response.json();
 
     if (response.ok) {
-      alert(result.message);
+      alert(result.message || 'Votre demande a été envoyée avec succès.');
       form.reset();
       grecaptcha.reset(); // Réinitialise reCAPTCHA
+      // Réinitialiser le timestamp pour le prochain envoi
+      document.getElementById('timestamp').value = Date.now();
     } else {
-      alert('Erreur : ' + result.error);
+      alert('Erreur : ' + (result.error || 'Erreur inconnue'));
     }
   } catch (err) {
-    alert('Une erreur inattendue est survenue.');
-    console.error(err);
+    console.error('Erreur détaillée:', err);
+    alert('Une erreur inattendue est survenue. Veuillez réessayer.');
   }
 });
 </script>
