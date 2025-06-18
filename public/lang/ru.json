@@ -187,9 +187,12 @@
 
   "lang_fr": "Французский",
   "lang_en": "Английский",
+  "lang_de": "Немецкий",
   "lang_es": "Испанский",
+  "lang_pt": "Португальский",
+  "lang_jp": "Японский",
   "lang_ar": "Арабский",
-  "lang_ch": "Мандаринский",
+  "lang_zh": "Мандаринский",
   "lang_ru": "Русский",
 
   "transportTitle": "Безопасная транспортировка – Aaron Protection",
@@ -201,5 +204,9 @@
   "cookiesTitle2": "Политика использования файлов cookie – Aaron Protection",
   "contactTitle2": "Контакт – Aaron Protection",
   "confidentialiteTitle": "Политика конфиденциальности – Aaron Protection",
-  "conditionsTitle": "Условия использования – Aaron Protection"
+  "conditionsTitle": "Условия использования – Aaron Protection",
+
+  "mapTop": "Находится во Франции – Доступно во всех странах",
+  "mapBottom": "Стоимость услуги может зависеть от местоположения страны."
+
 }

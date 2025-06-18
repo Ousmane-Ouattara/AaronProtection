@@ -27,7 +27,7 @@ app.use(
           "unpkg.com",
           "https://www.google.com",
           "https://www.gstatic.com",
-          "https://www.recaptcha.net"  // Ajouté pour reCAPTCHA
+          "https://www.recaptcha.net"
         ],
         scriptSrcAttr: ["'unsafe-inline'", "'unsafe-hashes'"],
         styleSrc: [
@@ -45,18 +45,25 @@ app.use(
         imgSrc: [
           "'self'",
           "data:",
-          "https://www.google.com",     // Pour les images reCAPTCHA
-          "https://www.gstatic.com"
+          "https://www.google.com",
+          "https://www.gstatic.com",
+          "https://a.tile.openstreetmap.org",
+          "https://b.tile.openstreetmap.org",
+          "https://c.tile.openstreetmap.org",
+          "https://a.basemaps.cartocdn.com",
+          "https://b.basemaps.cartocdn.com",
+          "https://c.basemaps.cartocdn.com",
+          "https://d.basemaps.cartocdn.com"
         ],
         connectSrc: [
           "'self'",
           "http://localhost:3000",
-          "https://aaronprotection.onrender.com",  // Votre API
-          "https://www.google.com",                // Pour reCAPTCHA
+          "https://aaronprotection.onrender.com",
+          "https://www.google.com",
           "https://www.recaptcha.net"
         ],
         frameSrc: [
-          "https://www.google.com",     // Important pour reCAPTCHA
+          "https://www.google.com",
           "https://www.recaptcha.net"
         ],
         frameAncestors: ["'none'"]

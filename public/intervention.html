@@ -4,15 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-i18n="interventionTitle2">Champs d'intervention – Aaron Protection</title>
-  <!-- Leaflet CSS depuis cdnjs.cloudflare.com au lieu d'unpkg -->
+
+  <!-- PAS de balise CSP ici si tu gères ça côté serveur -->
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
   <link rel="stylesheet" href="css/intervention.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
   <script src="js/services.js" defer></script>
   <script src="js/lang.js" defer></script>
+  <script src="js/lang.js" defer></script>
+
+
+
+  
 </head>
 <body>
-<section class="video-section">
+
+  <!-- Section vidéo -->
+  <section class="video-section">
     <video autoplay muted loop playsinline class="background-video">
       <source src="videos/earth-vmake.mp4" type="video/mp4" />
       Votre navigateur ne supporte pas la vidéo HTML5.
@@ -31,7 +41,7 @@
       </div>
     </div>
   </section>
-  
+
   <!-- HEADER -->
   <header>
     <div class="background-bar"></div>
@@ -39,16 +49,18 @@
     <div class="logo">
       <a href="services.html"><img src="img/Logo2.png" alt="Logo Aaron Protection" /></a>
     </div>
-
     <div class="dealer">
       <div class="languages">
         <span class="dealer-label">🌐︎ <span data-i18n="languages">Languages</span></span>
         <ul class="language-dropdown">
           <li><a href="#" onclick="setLanguage('fr')" data-i18n="lang_fr">Français</a></li>
           <li><a href="#" onclick="setLanguage('en')" data-i18n="lang_en">English</a></li>
+          <li><a href="#" onclick="setLanguage('de')" data-i18n="lang_de">Allemand</a></li>
           <li><a href="#" onclick="setLanguage('es')" data-i18n="lang_es">Espagnol</a></li>
+          <li><a href="#" onclick="setLanguage('pt')" data-i18n="lang_pt">Portugais</a></li>
+          <li><a href="#" onclick="setLanguage('jp')" data-i18n="lang_jp">Japonais</a></li>
           <li><a href="#" onclick="setLanguage('ar')" data-i18n="lang_ar">Arabe</a></li>
-          <li><a href="#" onclick="setLanguage('ch')" data-i18n="lang_ch">Mandarin</a></li>
+          <li><a href="#" onclick="setLanguage('zh')" data-i18n="lang_zh">Mandarin</a></li>
           <li><a href="#" onclick="setLanguage('ru')" data-i18n="lang_ru">Russe</a></li>
         </ul>
       </div>
@@ -66,7 +78,19 @@
     </ul>
   </nav>
 
-  <div id="map"></div>
+  <!-- MAP -->
+
+  <div class="map-info-top">
+  <h2 data-i18n="mapTop">Localisé en France – Disponible dans tous les pays</h2>
+</div>
+
+  <div id="map" style="width: 100%; height: 500px;"></div>
+
+
+  <div class="map-info-bottom">
+  <p data-i18n="mapBottom">Le coût du service peux dépendre de l'emplacement du pays.</p>
+</div>
+
 
   <div class="button-container">
     <a href="services.html#services">
@@ -93,58 +117,50 @@
 
   <div class="custom-cursor"></div>
 
-  <!-- SCRIPTS - Utilisation de cdnjs.cloudflare.com -->
+  <!-- LEAFLET + AXIOS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
-  <script>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-pMyVUDY5xTltI6mPvhzMyAqUu1eL2cK1xDpP2mE0e0I="
+    crossorigin=""
+  ></script>
+
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="map.js"></script>
+    <script>
     const map = L.map('map').setView([20, 0], 2);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-    document.querySelector('.leaflet-tile-pane').style.display = 'none';
 
-    // Alternative pour éviter le problème avec GitHub raw
-    // Utilisation d'un GeoJSON hébergé sur un CDN autorisé ou création d'une version simplifiée
-    const worldCountries = {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "properties": { "name": "France" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[[2.5, 51], [8, 51], [8, 42], [2.5, 42], [2.5, 51]]]
-          }
-        },
-        {
-          "type": "Feature", 
-          "properties": { "name": "Monde entier" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]]]
-          }
-        }
-      ]
-    };
-
-    // Utilisation des données locales au lieu de l'appel externe
-    L.geoJSON(worldCountries, {
-      style: {
-        color: "#FFD700",
-        weight: 1,
-        fillColor: "#FFD700",
-        fillOpacity: 0.15
-      },
-      onEachFeature: function (feature, layer) {
-        if (feature.properties && feature.properties.name) {
-          layer.bindPopup(`<strong>${feature.properties.name}</strong><br>Intervention disponible partout.`);
-        }
-      }
+    // Fond noir
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; CartoDB',
+      subdomains: 'abcd',
+      maxZoom: 19
     }).addTo(map);
 
-    function toggleMenu() {
-      document.getElementById("hamburger-menu").classList.toggle("open");
-    }
+    // Charger les pays en GeoJSON
+    fetch('/countries.geo.json')
+      .then(response => response.json())
+      .then(data => {
+        L.geoJSON(data, {
+          style: {
+            color: 'gold',        // Bordure en or
+            weight: 1,
+            fillColor: 'gold',    // Remplissage or
+            fillOpacity: 0.5
+          },
+          onEachFeature: (feature, layer) => {
+            layer.on('click', () => {
+              layer.bindPopup("<strong>Services disponibles partout</strong>").openPopup();
+            });
+          }
+        }).addTo(map);
+      });
+
+
+      
   </script>
 </body>
 </html>

@@ -185,9 +185,12 @@
 
   "lang_fr": "French",
   "lang_en": "English",
+  "lang_de": "German",
   "lang_es": "Spanish",
+  "lang_pt": "Portuguese",
+  "lang_jp": "Japanese",
   "lang_ar": "Arabic",
-  "lang_ch": "Mandarin",
+  "lang_zh": "Mandarin",
   "lang_ru": "Russian",
 
   "transportTitle": "Secure Transport – Aaron Protection",
@@ -199,6 +202,10 @@
   "cookiesTitle2": "Cookie Policy – Aaron Protection",
   "contactTitle2": "Contact – Aaron Protection",
   "confidentialiteTitle": "Privacy Policy – Aaron Protection",
-  "conditionsTitle": "Terms of Use – Aaron Protection"
+  "conditionsTitle": "Terms of Use – Aaron Protection",
+
+  "mapTop": "Based in France – Available in all countries",
+  "mapBottom": "The service cost may depend on the country’s location."
+
 }
 

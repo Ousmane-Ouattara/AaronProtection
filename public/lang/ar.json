@@ -186,9 +186,12 @@
 
   "lang_fr": "الفرنسية",
   "lang_en": "الإنجليزية",
+  "lang_de": "الألمانية",
   "lang_es": "الإسبانية",
+  "lang_pt": "البرتغالية",
+  "lang_jp": "اليابانية",
   "lang_ar": "العربية",
-  "lang_ch": "الماندرين",
+  "lang_zh": "الماندرين",
   "lang_ru": "الروسية",
 
   "transportTitle": "النقل الآمن – Aaron Protection",
@@ -200,5 +203,9 @@
   "cookiesTitle2": "سياسة ملفات تعريف الارتباط – Aaron Protection",
   "contactTitle2": "اتصل – Aaron Protection",
   "confidentialiteTitle": "سياسة الخصوصية – Aaron Protection",
-  "conditionsTitle": "شروط الاستخدام – Aaron Protection"
+  "conditionsTitle": "شروط الاستخدام – Aaron Protection",
+
+  "mapTop": "مقره في فرنسا – متوفر في جميع الدول",
+  "mapBottom": "قد تعتمد تكلفة الخدمة على موقع البلد."
+
 }

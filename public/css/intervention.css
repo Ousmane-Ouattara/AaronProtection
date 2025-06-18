@@ -335,19 +335,40 @@ button:hover ~ .custom-cursor {
 }
 
 .map-section h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #e2c675;
+  color: #d4af37;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 #map {
   height: 500px;
-  width: 100vw;
+  width: 100%;
   max-width: 1200px;
-  background-color: black;
   margin: 0 auto;
-  border: 2px solid rgb(77, 75, 75);
-  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.5); /* bord or léger */
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #000;
+  animation: fadeInMap 1s ease-in-out;
+}
+
+#map:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+}
+
+@keyframes fadeInMap {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .leaflet-control-zoom,
@@ -534,4 +555,24 @@ button:hover ~ .custom-cursor {
   .menu span {
     display: none;
   }
+}
+
+
+.map-info-top, .map-info-bottom {
+  text-align: center;
+  color: white;
+  font-family: 'Playfair Display', serif;
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 0 15px;
+}
+
+.map-info-top h2 {
+  font-size: 1.6em;
+  color: gold;
+}
+
+.map-info-bottom p {
+  font-size: 1.2em;
+  color: #ccc;
 }
