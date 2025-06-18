@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-i18n="interventionTitle2">Champs d'intervention – Aaron Protection</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Leaflet CSS depuis cdnjs.cloudflare.com au lieu d'unpkg -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
   <link rel="stylesheet" href="css/intervention.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
   <script src="js/services.js" defer></script>
@@ -65,15 +66,13 @@
     </ul>
   </nav>
 
-
   <div id="map"></div>
-
 
   <div class="button-container">
     <a href="services.html#services">
-  <button class="btn-services" data-i18n="btnServices">Voir nos Services</button>
-  </a>
-</div>
+      <button class="btn-services" data-i18n="btnServices">Voir nos Services</button>
+    </a>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -94,9 +93,9 @@
 
   <div class="custom-cursor"></div>
 
-  <!-- SCRIPTS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- SCRIPTS - Utilisation de cdnjs.cloudflare.com -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
   <script>
     const map = L.map('map').setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -104,22 +103,44 @@
     }).addTo(map);
     document.querySelector('.leaflet-tile-pane').style.display = 'none';
 
-    axios.get('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-      .then(response => {
-        L.geoJSON(response.data, {
-          style: {
-            color: "#FFD700",
-            weight: 1,
-            fillColor: "#FFD700",
-            fillOpacity: 0.15
-          },
-          onEachFeature: function (feature, layer) {
-            if (feature.properties && feature.properties.name) {
-              layer.bindPopup(`<strong>${feature.properties.name}</strong><br>Intervention disponible partout.`);
-            }
+    // Alternative pour éviter le problème avec GitHub raw
+    // Utilisation d'un GeoJSON hébergé sur un CDN autorisé ou création d'une version simplifiée
+    const worldCountries = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": { "name": "France" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[2.5, 51], [8, 51], [8, 42], [2.5, 42], [2.5, 51]]]
           }
-        }).addTo(map);
-      });
+        },
+        {
+          "type": "Feature", 
+          "properties": { "name": "Monde entier" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]]]
+          }
+        }
+      ]
+    };
+
+    // Utilisation des données locales au lieu de l'appel externe
+    L.geoJSON(worldCountries, {
+      style: {
+        color: "#FFD700",
+        weight: 1,
+        fillColor: "#FFD700",
+        fillOpacity: 0.15
+      },
+      onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties.name) {
+          layer.bindPopup(`<strong>${feature.properties.name}</strong><br>Intervention disponible partout.`);
+        }
+      }
+    }).addTo(map);
 
     function toggleMenu() {
       document.getElementById("hamburger-menu").classList.toggle("open");
