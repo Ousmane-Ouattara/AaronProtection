@@ -279,20 +279,28 @@ header {
   transition: transform 0.15s ease, background-color 0.15s ease, border 0.15s ease;
   z-index: 9999;
   transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
 }
 
-.custom-cursor.click {
-  transform: translate(-50%, -50%) scale(1.5);
-}
-
-.custom-cursor.hover {
-  transform: translate(-50%, -50%) scale(1.5);
-}
-
-/* Effet hover (facultatif pour des liens) */
+/* Animation click / hover */
+.custom-cursor.click,
+.custom-cursor.hover,
 a:hover ~ .custom-cursor,
 button:hover ~ .custom-cursor {
   transform: translate(-50%, -50%) scale(1.5);
+}
+
+/* Masquer uniquement le curseur personnalisé sur mobile ou écran étroit */
+@media (max-width: 768px) {
+  .custom-cursor {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  body, html {
+    cursor: auto !important;
+  }
 }
 
 

@@ -58,30 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const lang = localStorage.getItem('lang') || 'fr';
   setLanguage(lang);
 
-  // Curseur personnalisé
-  const cursor = document.querySelector('.custom-cursor');
-  if (cursor) {
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.top = `${e.clientY}px`;
-      cursor.style.left = `${e.clientX}px`;
-    });
-
-    document.addEventListener('mousedown', () => cursor.classList.add('click'));
-    document.addEventListener('mouseup', () => cursor.classList.remove('click'));
-
-    const interactiveTags = ['a', 'button', 'input', 'textarea', 'select', 'label'];
-    document.addEventListener('mouseover', (e) => {
-      if (interactiveTags.includes(e.target.tagName.toLowerCase()) || e.target.onclick) {
-        cursor.classList.add('hover');
-      }
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (interactiveTags.includes(e.target.tagName.toLowerCase()) || e.target.onclick) {
-        cursor.classList.remove('hover');
-      }
-    });
-  }
-
   // Smooth scroll pour les ancres
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -173,3 +149,128 @@ window.addEventListener('resize', () => {
     hamburgerMenu.classList.remove('visible');
   }
 });
+
+// CLASSE CURSEUR PERSONNALISÉ - VERSION CORRIGÉE
+class CustomCursor {
+  constructor() {
+    this.cursor = document.querySelector('.custom-cursor');
+    this.isVisible = false;
+    
+    if (!this.cursor) {
+      console.warn('Élément .custom-cursor non trouvé');
+      return;
+    }
+    
+    this.init();
+  }
+  
+  init() {
+    // FORCER l'affichage du curseur au démarrage
+    this.show();
+    
+    // Gestion du mouvement de la souris
+    document.addEventListener('mousemove', (e) => {
+      this.updatePosition(e.clientX, e.clientY);
+      
+      // TOUJOURS afficher le curseur sur desktop
+      if (this.shouldShowCursor()) {
+        this.show();
+      }
+    });
+    
+    // Gestion des clics
+    document.addEventListener('mousedown', () => {
+      if (this.shouldShowCursor()) {
+        this.cursor.classList.add('click');
+      }
+    });
+    
+    document.addEventListener('mouseup', () => {
+      this.cursor.classList.remove('click');
+    });
+    
+    // Gestion du hover sur éléments interactifs
+    const interactiveTags = ['a', 'button', 'input', 'textarea', 'select', 'label'];
+    
+    document.addEventListener('mouseover', (e) => {
+      if (this.shouldShowCursor() && 
+          (interactiveTags.includes(e.target.tagName.toLowerCase()) || e.target.onclick)) {
+        this.cursor.classList.add('hover');
+      }
+    });
+    
+    document.addEventListener('mouseout', (e) => {
+      if (interactiveTags.includes(e.target.tagName.toLowerCase()) || e.target.onclick) {
+        this.cursor.classList.remove('hover');
+      }
+    });
+    
+    // NOUVEAU : Forcer le curseur à rester visible
+    document.addEventListener('mouseenter', () => {
+      if (this.shouldShowCursor()) {
+        this.show();
+      }
+    });
+    
+    // Gérer les changements de focus sans masquer le curseur
+    window.addEventListener('focus', () => {
+      if (this.shouldShowCursor()) {
+        this.show();
+      }
+    });
+    
+    // NE PAS masquer le curseur quand on perd le focus
+    window.addEventListener('blur', () => {
+      // On ne fait rien - on garde le curseur visible
+    });
+    
+    // Gestion de la visibilité du document (simplifiée)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && this.shouldShowCursor()) {
+        this.show();
+      }
+    });
+  }
+  
+  shouldShowCursor() {
+    // Uniquement vérifier si on est sur desktop
+    return window.innerWidth > 768;
+  }
+  
+  updatePosition(x, y) {
+    this.cursor.style.left = `${x}px`;
+    this.cursor.style.top = `${y}px`;
+  }
+  
+  show() {
+    if (this.shouldShowCursor() && !this.isVisible) {
+      this.cursor.style.opacity = '1';
+      this.cursor.style.visibility = 'visible';
+      this.isVisible = true;
+    }
+  }
+  
+  hide() {
+    if (this.isVisible) {
+      this.cursor.style.opacity = '0';
+      this.cursor.style.visibility = 'hidden';
+      this.isVisible = false;
+    }
+  }
+}
+
+// Initialisation unique du curseur
+let customCursorInstance = null;
+
+function initCustomCursor() {
+  if (!customCursorInstance && document.querySelector('.custom-cursor')) {
+    customCursorInstance = new CustomCursor();
+  }
+}
+
+// S'assurer que le curseur n'est initialisé qu'une seule fois
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCustomCursor);
+} else {
+  initCustomCursor();
+}

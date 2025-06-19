@@ -282,9 +282,12 @@ header .dealer {
   border: 2px solid white;
   border-radius: 50%;
   pointer-events: none;
-  transition: transform 0.15s ease, background-color 0.15s ease, border 0.15s ease;
-  z-index: 9999;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+  z-index: 99999;
   transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
+  will-change: transform, opacity;
 }
 
 .custom-cursor.click {
@@ -295,11 +298,31 @@ header .dealer {
   transform: translate(-50%, -50%) scale(1.5);
 }
 
-/* Effet hover (facultatif pour des liens) */
-a:hover ~ .custom-cursor,
-button:hover ~ .custom-cursor {
-  transform: translate(-50%, -50%) scale(1.5);
+/* Masquer le curseur système sur desktop uniquement */
+@media (min-width: 769px) {
+  * {
+    cursor: none !important;
+  }
+  
+  /* Exception pour les champs de saisie */
+  input, textarea, select {
+    cursor: text !important;
+  }
+  
+  /* Exception pour les éléments avec curseur spécifique */
+  [style*="cursor"] {
+    cursor: none !important;
+  }
 }
+
+  body.is-touch * {
+  cursor: auto !important;
+}
+
+body.is-touch .custom-cursor {
+  display: none !important;
+}
+  
 .container {
   margin-top: 120px;
   margin-left: 50px;
