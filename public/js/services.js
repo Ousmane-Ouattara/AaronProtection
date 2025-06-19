@@ -121,6 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // Initialiser le système d'alertes personnalisées
+  new CustomAlertSystem();
 });
 
 // Traduction multilingue
@@ -150,7 +153,207 @@ window.addEventListener('resize', () => {
   }
 });
 
-// CLASSE CURSEUR PERSONNALISÉ - VERSION CORRIGÉE
+// SYSTÈME D'ALERTES PERSONNALISÉES pour éviter les pop-ups natifs
+class CustomAlertSystem {
+  constructor() {
+    this.createModalContainer();
+    this.replaceNativeAlerts();
+  }
+  
+  createModalContainer() {
+    if (document.getElementById('custom-alert-container')) return;
+    
+    const container = document.createElement('div');
+    container.id = 'custom-alert-container';
+    container.innerHTML = `
+      <div class="custom-alert-overlay">
+        <div class="custom-alert-box">
+          <div class="custom-alert-content">
+            <p class="custom-alert-message"></p>
+            <div class="custom-alert-buttons">
+              <button class="custom-alert-btn custom-alert-ok">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Ajouter les styles
+    const style = document.createElement('style');
+    style.textContent = `
+      #custom-alert-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999998;
+      }
+      
+      .custom-alert-overlay {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+      }
+      
+      .custom-alert-box {
+        background: rgba(26, 15, 36, 0.95);
+        border: 1px solid #d4af37;
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      
+      .custom-alert-message {
+        color: #e5d7a3;
+        font-family: 'Playfair Display', serif;
+        font-size: 16px;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+      
+      .custom-alert-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+      
+      .custom-alert-btn {
+        background: #d4af37;
+        color: #1a0f24;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Playfair Display', serif;
+      }
+      
+      .custom-alert-btn:hover {
+        background: #ffd700;
+        transform: translateY(-2px);
+      }
+      
+      .custom-alert-btn:active {
+        transform: translateY(0);
+      }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(container);
+  }
+  
+  replaceNativeAlerts() {
+    // Sauvegarder les fonctions originales
+    this.originalAlert = window.alert;
+    this.originalConfirm = window.confirm;
+    this.originalPrompt = window.prompt;
+    
+    // Remplacer alert()
+    window.alert = (message) => {
+      this.showAlert(message);
+    };
+    
+    // Optionnel : remplacer confirm() et prompt()
+    window.confirm = (message) => {
+      return this.showConfirm(message);
+    };
+  }
+  
+  showAlert(message) {
+    const container = document.getElementById('custom-alert-container');
+    const messageEl = container.querySelector('.custom-alert-message');
+    const okBtn = container.querySelector('.custom-alert-ok');
+    
+    messageEl.textContent = message;
+    container.style.display = 'block';
+    
+    // Animer l'apparition
+    const alertBox = container.querySelector('.custom-alert-box');
+    alertBox.style.transform = 'scale(0.8)';
+    alertBox.style.opacity = '0';
+    
+    setTimeout(() => {
+      alertBox.style.transition = 'all 0.3s ease';
+      alertBox.style.transform = 'scale(1)';
+      alertBox.style.opacity = '1';
+    }, 10);
+    
+    // Gérer la fermeture
+    const closeAlert = () => {
+      alertBox.style.transform = 'scale(0.8)';
+      alertBox.style.opacity = '0';
+      setTimeout(() => {
+        container.style.display = 'none';
+      }, 300);
+    };
+    
+    okBtn.onclick = closeAlert;
+    
+    // Fermer avec Escape
+    const handleKeydown = (e) => {
+      if (e.key === 'Escape') {
+        closeAlert();
+        document.removeEventListener('keydown', handleKeydown);
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeydown);
+  }
+  
+  showConfirm(message) {
+    return new Promise((resolve) => {
+      const container = document.getElementById('custom-alert-container');
+      const messageEl = container.querySelector('.custom-alert-message');
+      const buttonsDiv = container.querySelector('.custom-alert-buttons');
+      
+      messageEl.textContent = message;
+      
+      // Remplacer les boutons pour confirm
+      buttonsDiv.innerHTML = `
+        <button class="custom-alert-btn custom-alert-cancel">Annuler</button>
+        <button class="custom-alert-btn custom-alert-confirm">OK</button>
+      `;
+      
+      container.style.display = 'block';
+      
+      const alertBox = container.querySelector('.custom-alert-box');
+      alertBox.style.transform = 'scale(0.8)';
+      alertBox.style.opacity = '0';
+      
+      setTimeout(() => {
+        alertBox.style.transition = 'all 0.3s ease';
+        alertBox.style.transform = 'scale(1)';
+        alertBox.style.opacity = '1';
+      }, 10);
+      
+      const closeAndResolve = (result) => {
+        alertBox.style.transform = 'scale(0.8)';
+        alertBox.style.opacity = '0';
+        setTimeout(() => {
+          container.style.display = 'none';
+          // Restaurer le bouton OK original
+          buttonsDiv.innerHTML = '<button class="custom-alert-btn custom-alert-ok">OK</button>';
+          resolve(result);
+        }, 300);
+      };
+      
+      container.querySelector('.custom-alert-confirm').onclick = () => closeAndResolve(true);
+      container.querySelector('.custom-alert-cancel').onclick = () => closeAndResolve(false);
+    });
+  }
+}
+
+// CLASSE CURSEUR PERSONNALISÉ - VERSION AMÉLIORÉE POUR POP-UPS
 class CustomCursor {
   constructor() {
     this.cursor = document.querySelector('.custom-cursor');
@@ -165,7 +368,8 @@ class CustomCursor {
   }
   
   init() {
-    // FORCER l'affichage du curseur au démarrage
+    // FORCER l'affichage du curseur au démarrage avec z-index très élevé
+    this.cursor.style.zIndex = '999999';
     this.show();
     
     // Gestion du mouvement de la souris
@@ -205,14 +409,14 @@ class CustomCursor {
       }
     });
     
-    // NOUVEAU : Forcer le curseur à rester visible
+    // NOUVEAU : Forcer le curseur à rester visible même avec des modals
     document.addEventListener('mouseenter', () => {
       if (this.shouldShowCursor()) {
         this.show();
       }
     });
     
-    // Gérer les changements de focus sans masquer le curseur
+    // Écouter les changements de focus sans masquer le curseur
     window.addEventListener('focus', () => {
       if (this.shouldShowCursor()) {
         this.show();
@@ -221,15 +425,57 @@ class CustomCursor {
     
     // NE PAS masquer le curseur quand on perd le focus
     window.addEventListener('blur', () => {
-      // On ne fait rien - on garde le curseur visible
-    });
-    
-    // Gestion de la visibilité du document (simplifiée)
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden && this.shouldShowCursor()) {
+      // Garder le curseur visible même si la fenêtre perd le focus
+      if (this.shouldShowCursor()) {
         this.show();
       }
     });
+    
+    // Observer les changements dans le DOM pour détecter les nouveaux modals
+    this.observeModalChanges();
+  }
+  
+  // Observer les changements DOM pour les modals
+  observeModalChanges() {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          // Chercher les nouveaux éléments modals
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              // Vérifier si c'est un modal ou un élément avec z-index élevé
+              const style = window.getComputedStyle(node);
+              if (style.zIndex && parseInt(style.zIndex) > 1000) {
+                this.ensureVisibilityForModal();
+              }
+            }
+          });
+        }
+      });
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+  
+  // Assurer la visibilité pour les modals
+  ensureVisibilityForModal() {
+    if (this.shouldShowCursor()) {
+      // Augmenter temporairement le z-index
+      this.cursor.style.zIndex = '9999999';
+      this.show();
+      
+      // Forcer la visibilité avec !important via une classe CSS
+      this.cursor.classList.add('modal-visible');
+      
+      // Retirer la classe après un délai
+      setTimeout(() => {
+        this.cursor.classList.remove('modal-visible');
+        this.cursor.style.zIndex = '999999';
+      }, 5000);
+    }
   }
   
   shouldShowCursor() {
@@ -246,6 +492,7 @@ class CustomCursor {
     if (this.shouldShowCursor() && !this.isVisible) {
       this.cursor.style.opacity = '1';
       this.cursor.style.visibility = 'visible';
+      this.cursor.style.display = 'block';
       this.isVisible = true;
     }
   }
