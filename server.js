@@ -10,9 +10,19 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
-app.use(cors());
+// Configuration CORS AVANT toute autre chose
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://aaronprotection.onrender.com', 'http://127.0.0.1:5500', 'https://votre-domaine-frontend.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
+// Middleware pour parser JSON AVANT les routes
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Helmet après CORS
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -73,9 +83,6 @@ app.use(
   })
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
 })
@@ -98,16 +105,6 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Serveur en ligne sur le port ${PORT}`);
-  console.log(`📧 Email configuré: ${process.env.EMAIL_USER ? 'Oui' : 'Non'}`);
+  console.log(`📧 Email configuré: ${process.env.MAIL_USER ? 'Oui' : 'Non'}`);
   console.log(`🔐 reCAPTCHA configuré: ${process.env.RECAPTCHA_SECRET ? 'Oui' : 'Non'}`);
-
-
-  app.use(cors({
-  origin: ['http://localhost:3000', 'https://votre-domaine-frontend.com'], // Remplacez par vos domaines
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
-
-app.use('/api/support', require('./routes/support'));
 });

@@ -121,6 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Fonction utilitaire pour récupérer les traductions
+function getTranslation(key) {
+  const element = document.querySelector(`[data-i18n="${key}"]`);
+  return element ? element.textContent : '';
+}
+
 document.querySelector('#support-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -137,7 +142,7 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
   // Vérification reCAPTCHA
   const recaptchaResponse = grecaptcha.getResponse();
   if (!recaptchaResponse) {
-    alert(getTranslation('recaptcha-validation-required'));
+    alert(getTranslation('recaptcha-validation-required') || 'Veuillez valider le reCAPTCHA.');
     return;
   }
 
@@ -173,13 +178,13 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
     }
 
     if (response.ok) {
-      alert(getTranslation('form-success-message'));
+      alert(getTranslation('form-success-message') || 'Votre demande a été envoyée avec succès.');
       form.reset();
       grecaptcha.reset();
       document.getElementById('timestamp').value = Date.now();
     } else {
       console.error('Erreur serveur:', result);
-      alert(getTranslation('form-error-prefix') + (result.error || getTranslation('form-unknown-error')));
+      alert((getTranslation('form-error-prefix') || 'Erreur : ') + (result.error || getTranslation('form-unknown-error') || 'Erreur inconnue'));
     }
   } catch (err) {
     console.error('Erreur détaillée:', err);
@@ -192,7 +197,7 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
     } else if (err.name === 'TypeError' && err.message.includes('CORS')) {
       alert('Erreur CORS. Le serveur n\'autorise pas cette requête.');
     } else {
-      alert(getTranslation('form-unexpected-error'));
+      alert(getTranslation('form-unexpected-error') || 'Une erreur inattendue est survenue. Veuillez réessayer.');
     }
   }
 });
