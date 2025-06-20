@@ -1,9 +1,46 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-// Changement important : utiliser node-fetch ou axios au lieu de fetch natif
-const fetch = require('node-fetch'); // ou const axios = require('axios');
+const https = require('https');
+const querystring = require('querystring');
 const SupportRequest = require('../models/SupportRequest');
+
+// Fonction pour faire la vérification reCAPTCHA sans node-fetch
+function verifyRecaptcha(token, secret) {
+  return new Promise((resolve, reject) => {
+    const postData = querystring.stringify({
+      secret: secret,
+      response: token
+    });
+
+    const options = {
+      hostname: 'www.google.com',
+      port: 443,
+      path: '/recaptcha/api/siteverify',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(postData);
+    req.end();
+  });
+}
 
 router.post('/', async (req, res) => {
   console.log('=== DÉBUT TRAITEMENT SUPPORT REQUEST ===');
@@ -44,19 +81,7 @@ router.post('/', async (req, res) => {
     console.log('RECAPTCHA_SECRET existe:', !!process.env.RECAPTCHA_SECRET);
     
     try {
-      const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `secret=${process.env.RECAPTCHA_SECRET}&response=${token}`
-      });
-      
-      console.log('Réponse reCAPTCHA status:', recaptchaRes.status);
-      
-      if (!recaptchaRes.ok) {
-        throw new Error(`HTTP error! status: ${recaptchaRes.status}`);
-      }
-      
-      const recaptchaData = await recaptchaRes.json();
+      const recaptchaData = await verifyRecaptcha(token, process.env.RECAPTCHA_SECRET);
       console.log('Données reCAPTCHA:', recaptchaData);
       
       if (!recaptchaData.success) {
@@ -96,7 +121,7 @@ router.post('/', async (req, res) => {
     });
     
     try {
-      const transporter = nodemailer.createTransport({
+      const transporter = nodemailer.createTransporter({
         service: 'gmail',
         auth: {
           user: process.env.MAIL_USER,

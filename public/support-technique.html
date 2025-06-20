@@ -121,11 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Fonction utilitaire pour récupérer les traductions
-function getTranslation(key) {
-  const element = document.querySelector(`[data-i18n="${key}"]`);
-  return element ? element.textContent : '';
-}
-
 document.querySelector('#support-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -148,6 +143,9 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
 
   values['g-recaptcha-response'] = recaptchaResponse;
 
+  // Debug - vérifiez les données envoyées
+  console.log('Données à envoyer:', values);
+
   try {
     const response = await fetch('https://aaronprotection.onrender.com/api/support', {
       method: 'POST',
@@ -157,11 +155,22 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
       body: JSON.stringify(values)
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    console.log('Status de la réponse:', response.status);
+    console.log('Headers de la réponse:', response.headers);
 
-    const result = await response.json();
+    // Lire la réponse comme texte d'abord pour debug
+    const responseText = await response.text();
+    console.log('Réponse brute:', responseText);
+
+    let result;
+    try {
+      result = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Erreur parsing JSON:', parseError);
+      console.error('Réponse reçue:', responseText);
+      alert('Erreur: Réponse du serveur invalide');
+      return;
+    }
 
     if (response.ok) {
       alert(getTranslation('form-success-message'));
@@ -169,11 +178,22 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
       grecaptcha.reset();
       document.getElementById('timestamp').value = Date.now();
     } else {
+      console.error('Erreur serveur:', result);
       alert(getTranslation('form-error-prefix') + (result.error || getTranslation('form-unknown-error')));
     }
   } catch (err) {
     console.error('Erreur détaillée:', err);
-    alert(getTranslation('form-unexpected-error'));
+    console.error('Type d\'erreur:', err.name);
+    console.error('Message d\'erreur:', err.message);
+    
+    // Plus de détails selon le type d'erreur
+    if (err.name === 'TypeError' && err.message.includes('fetch')) {
+      alert('Erreur de connexion au serveur. Vérifiez votre connexion internet.');
+    } else if (err.name === 'TypeError' && err.message.includes('CORS')) {
+      alert('Erreur CORS. Le serveur n\'autorise pas cette requête.');
+    } else {
+      alert(getTranslation('form-unexpected-error'));
+    }
   }
 });
 </script>

@@ -100,4 +100,14 @@ app.listen(PORT, () => {
   console.log(`🚀 Serveur en ligne sur le port ${PORT}`);
   console.log(`📧 Email configuré: ${process.env.EMAIL_USER ? 'Oui' : 'Non'}`);
   console.log(`🔐 reCAPTCHA configuré: ${process.env.RECAPTCHA_SECRET ? 'Oui' : 'Non'}`);
+
+
+  app.use(cors({
+  origin: ['http://localhost:3000', 'https://votre-domaine-frontend.com'], // Remplacez par vos domaines
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+
+app.use('/api/support', require('./routes/support'));
 });
