@@ -46,7 +46,7 @@
 
   <div class="container">
     <h1 data-i18n="supportTitle">Support Technique</h1>
-    <p data-i18n="supportIntro">Vous rencontrez un problème avec nos services ou avez une question technique ? Remplissez le formulaire ci-dessous et notre équipe vous répondra dans les plus brefs délais.</p>
+    <p data-i18n="supportIntro">Vous rencontrez un problème avec nos services ou avez une question technique ? Remplissez le formulaire ci-dessous et notre équipe vous répondra dans les plus brefs délais.</p>
 
     <form id="support-form">
   <label for="nom" data-i18n="labelName">Nom complet</label>
@@ -65,6 +65,14 @@
   <input type="text" name="website" style="display:none;">
   <div class="g-recaptcha" data-sitekey="6LfA22MrAAAAAOUpwLuJSx0ARApcc5PyC4uVnPA9"></div>
 
+  <div style="display: none;">
+  <span data-i18n="recaptcha-validation-required">Veuillez valider le reCAPTCHA.</span>
+  <span data-i18n="form-success-message">Votre demande a été envoyée avec succès.</span>
+  <span data-i18n="form-error-prefix">Erreur : </span>
+  <span data-i18n="form-unknown-error">Erreur inconnue</span>
+  <span data-i18n="form-unexpected-error">Une erreur inattendue est survenue. Veuillez réessayer.</span>
+</div>
+
   <button type="submit" data-i18n="buttonSubmit">Envoyer ma demande</button>
 </form>
 
@@ -72,17 +80,17 @@
       <h2 data-i18n="faqTitle">Foire aux Questions</h2>
 
       <div class="faq-item">
-        <h3 data-i18n="faq1Question">Comment suivre l'état de ma demande de support ?</h3>
-        <p data-i18n="faq1Answer">Une fois votre demande envoyée, vous recevrez un e-mail de confirmation avec un numéro de ticket. Vous pouvez nous répondre directement par e-mail pour suivre l’évolution.</p>
+        <h3 data-i18n="faq1Question">Comment suivre l'état de ma demande de support ?</h3>
+        <p data-i18n="faq1Answer">Une fois votre demande envoyée, vous recevrez un e-mail de confirmation avec un numéro de ticket. Vous pouvez nous répondre directement par e-mail pour suivre l'évolution.</p>
       </div>
 
       <div class="faq-item">
-        <h3 data-i18n="faq2Question">Quels types de problèmes sont traités ?</h3>
-        <p data-i18n="faq2Answer">Nous répondons à toute demande liée à la sécurité, l’accès au compte, les erreurs techniques, les paiements, ou tout comportement suspect sur votre interface Aaron Protection.</p>
+        <h3 data-i18n="faq2Question">Quels types de problèmes sont traités ?</h3>
+        <p data-i18n="faq2Answer">Nous répondons à toute demande liée à la sécurité, l'accès au compte, les erreurs techniques, les paiements, ou tout comportement suspect sur votre interface Aaron Protection.</p>
       </div>
 
       <div class="faq-item">
-        <h3 data-i18n="faq3Question">En combien de temps puis-je espérer une réponse ?</h3>
+        <h3 data-i18n="faq3Question">En combien de temps puis-je espérer une réponse ?</h3>
         <p data-i18n="faq3Answer">Nous nous engageons à répondre à toutes les demandes dans un délai de 24 à 48 heures ouvrables.</p>
       </div>
 
@@ -103,7 +111,6 @@
       </div>
       <div class="footer-column">
         <p data-i18n="footerCopy">&copy; 2025 Aaron Protection</p>
-
         </div>
     </div>
 </footer>
@@ -112,6 +119,12 @@
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('timestamp').value = Date.now();
 });
+
+// Fonction utilitaire pour récupérer les traductions
+function getTranslation(key) {
+  const element = document.querySelector(`[data-i18n="${key}"]`);
+  return element ? element.textContent : '';
+}
 
 document.querySelector('#support-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -129,7 +142,7 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
   // Vérification reCAPTCHA
   const recaptchaResponse = grecaptcha.getResponse();
   if (!recaptchaResponse) {
-    alert("Veuillez valider le reCAPTCHA.");
+    alert(getTranslation('recaptcha-validation-required'));
     return;
   }
 
@@ -151,21 +164,19 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
     const result = await response.json();
 
     if (response.ok) {
-      alert(result.message || 'Votre demande a été envoyée avec succès.');
+      alert(result.message || getTranslation('form-success-message'));
       form.reset();
-      grecaptcha.reset(); // Réinitialise reCAPTCHA
-      // Réinitialiser le timestamp pour le prochain envoi
+      grecaptcha.reset();
       document.getElementById('timestamp').value = Date.now();
     } else {
-      alert('Erreur : ' + (result.error || 'Erreur inconnue'));
+      alert(getTranslation('form-error-prefix') + (result.error || getTranslation('form-unknown-error')));
     }
   } catch (err) {
     console.error('Erreur détaillée:', err);
-    alert('Une erreur inattendue est survenue. Veuillez réessayer.');
+    alert(getTranslation('form-unexpected-error'));
   }
 });
 </script>
-
 
 </body>
 </html>

@@ -205,6 +205,12 @@
   "contactTitle2": "Контакт – Aaron Protection",
   "confidentialiteTitle": "Политика конфиденциальности – Aaron Protection",
   "conditionsTitle": "Условия использования – Aaron Protection",
+  
+  "recaptcha-validation-required": "Пожалуйста, подтвердите reCAPTCHA.",
+  "form-success-message": "Ваш запрос был успешно отправлен.",
+  "form-error-prefix": "Ошибка: ",
+  "form-unknown-error": "Неизвестная ошибка",
+  "form-unexpected-error": "Произошла неожиданная ошибка. Пожалуйста, попробуйте еще раз.",
 
   "mapTop": "Находится во Франции – Доступно во всех странах",
   "mapBottom": "Стоимость услуги может зависеть от местоположения страны."

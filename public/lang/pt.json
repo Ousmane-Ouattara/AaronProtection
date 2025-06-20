@@ -203,6 +203,12 @@
   "confidentialiteTitle": "Política de Privacidade – Aaron Protection",
   "conditionsTitle": "Condições de Uso – Aaron Protection",
 
+  "recaptcha-validation-required": "Por favor, valide o reCAPTCHA.",
+  "form-success-message": "Sua solicitação foi enviada com sucesso.",
+  "form-error-prefix": "Erro: ",
+  "form-unknown-error": "Erro desconhecido",
+  "form-unexpected-error": "Ocorreu um erro inesperado. Por favor, tente novamente.",
+
   "mapTop": "Localizado na França – Disponível em todos os países",
   "mapBottom": "O custo do serviço pode depender da localização do país."
 }

@@ -204,6 +204,12 @@
   "contactTitle2": "اتصل – Aaron Protection",
   "confidentialiteTitle": "سياسة الخصوصية – Aaron Protection",
   "conditionsTitle": "شروط الاستخدام – Aaron Protection",
+  
+  "recaptcha-validation-required": "يرجى التحقق من reCAPTCHA.",
+  "form-success-message": "تم إرسال طلبكم بنجاح.",
+  "form-error-prefix": "خطأ: ",
+  "form-unknown-error": "خطأ غير معروف",
+  "form-unexpected-error": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
 
   "mapTop": "مقره في فرنسا – متوفر في جميع الدول",
   "mapBottom": "قد تعتمد تكلفة الخدمة على موقع البلد."

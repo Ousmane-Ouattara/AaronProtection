@@ -202,6 +202,12 @@
   "contactTitle2": "お問い合わせ – Aaron Protection",
   "confidentialiteTitle": "プライバシーポリシー – Aaron Protection",
   "conditionsTitle": "利用規約 – Aaron Protection",
+  
+  "recaptcha-validation-required": "reCAPTCHAを確認してください。",
+  "form-success-message": "リクエストが正常に送信されました。",
+  "form-error-prefix": "エラー：",
+  "form-unknown-error": "不明なエラー",
+  "form-unexpected-error": "予期しないエラーが発生しました。再試行してください。",
 
   "mapTop": "フランスに拠点を置き、世界中でご利用可能",
   "mapBottom": "サービスの料金は国の場所によって異なる場合があります。"

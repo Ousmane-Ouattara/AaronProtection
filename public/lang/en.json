@@ -203,6 +203,12 @@
   "contactTitle2": "Contact – Aaron Protection",
   "confidentialiteTitle": "Privacy Policy – Aaron Protection",
   "conditionsTitle": "Terms of Use – Aaron Protection",
+  
+  "recaptcha-validation-required": "Please validate the reCAPTCHA.",
+  "form-success-message": "Your request has been sent successfully.",
+  "form-error-prefix": "Error: ",
+  "form-unknown-error": "Unknown error",
+  "form-unexpected-error": "An unexpected error occurred. Please try again.",
 
   "mapTop": "Based in France – Available in all countries",
   "mapBottom": "The service cost may depend on the country’s location."
