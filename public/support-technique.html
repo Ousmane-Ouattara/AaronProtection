@@ -164,7 +164,7 @@ document.querySelector('#support-form').addEventListener('submit', async (e) => 
     const result = await response.json();
 
     if (response.ok) {
-      alert(result.message || getTranslation('form-success-message'));
+      alert(getTranslation('form-success-message'));
       form.reset();
       grecaptcha.reset();
       document.getElementById('timestamp').value = Date.now();
