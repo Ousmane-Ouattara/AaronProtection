@@ -210,6 +210,12 @@
   "form-unknown-error": "Unknown error",
   "form-unexpected-error": "An unexpected error occurred. Please try again.",
 
+  "form-invalid-spam": "Invalid form (spam detected).",
+  "recaptcha-not-loaded": "reCAPTCHA not loaded. Please reload the page.",
+  "recaptcha-error": "reCAPTCHA error. Please reload the page.",
+  "form-server-error": "Error sending form. Please try again.",
+  "form-network-error": "Network error. Check your connection and try again.",
+
   "mapTop": "Based in France – Available in all countries",
   "mapBottom": "The service cost may depend on the country’s location."
 

@@ -39,7 +39,18 @@
          <div class="g-recaptcha" data-sitekey="6LfA22MrAAAAAOUpwLuJSx0ARApcc5PyC4uVnPA9"></div>
        </div>
 
-       <span data-i18n="recaptcha-validation-required">Veuillez valider le reCAPTCHA.</span>
+       <div style="display: none;">
+  <span data-i18n="recaptcha-validation-required">Veuillez valider le reCAPTCHA.</span>
+  <span data-i18n="form-success-message">Votre demande a été envoyée avec succès.</span>
+  <span data-i18n="form-error-prefix">Erreur : </span>
+  <span data-i18n="form-unknown-error">Erreur inconnue</span>
+  <span data-i18n="form-unexpected-error">Une erreur inattendue est survenue. Veuillez réessayer.</span>
+  <span data-i18n="form-invalid-spam">Formulaire invalide (spam détecté).</span>
+  <span data-i18n="recaptcha-not-loaded">reCAPTCHA non chargé. Veuillez recharger la page.</span>
+  <span data-i18n="recaptcha-error">Erreur avec le reCAPTCHA. Veuillez recharger la page.</span>
+  <span data-i18n="form-server-error">Erreur lors de l'envoi du formulaire. Veuillez réessayer.</span>
+  <span data-i18n="form-network-error">Erreur réseau. Vérifiez votre connexion et réessayez.</span>
+</div>
 
       <button type="submit" data-i18n="sendRequest">Envoyer la demande</button>
     </form>
@@ -57,6 +68,10 @@
   
   <script>
     // Variable pour vérifier si reCAPTCHA est chargé
+    function getTranslation(key) {
+  const element = document.querySelector(`[data-i18n="${key}"]`);
+  return element ? element.textContent : '';
+}
     let recaptchaLoaded = false;
     
     // Fonction pour vérifier si reCAPTCHA est disponible
@@ -104,28 +119,28 @@
 
         // Vérification anti-spam
         if (document.getElementById('website').value !== "") {
-          alert("Formulaire invalide (spam détecté).");
-          return;
+         alert(getTranslation('form-invalid-spam'));
+         return;
         }
 
         // Vérification reCAPTCHA
         let recaptchaResponse;
         
         if (!checkRecaptchaLoaded()) {
-          alert("reCAPTCHA non chargé. Veuillez recharger la page.");
-          return;
+           alert(getTranslation('recaptcha-not-loaded'));
+           return;
         }
 
         try {
           recaptchaResponse = grecaptcha.getResponse();
         } catch (error) {
           console.error('Erreur reCAPTCHA:', error);
-          alert("Erreur avec le reCAPTCHA. Veuillez recharger la page.");
+          alert(getTranslation('recaptcha-error'));
           return;
         }
 
         if (!recaptchaResponse || recaptchaResponse === '') {
-          alert("Veuillez valider le reCAPTCHA.");
+          alert(getTranslation('recaptcha-validation-required'));
           return;
         }
 
@@ -179,11 +194,11 @@
           } else {
             const errorText = await response.text();
             console.error('Erreur serveur:', errorText);
-            alert("Erreur lors de l'envoi du formulaire. Veuillez réessayer.");
+            alert(getTranslation('form-server-error'));
           }
         } catch (error) {
           console.error('Erreur réseau:', error);
-          alert("Erreur réseau. Vérifiez votre connexion et réessayez.");
+          alert(getTranslation('form-network-error'));
         }
       });
     });

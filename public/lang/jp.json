@@ -209,6 +209,12 @@
   "form-unknown-error": "不明なエラー",
   "form-unexpected-error": "予期しないエラーが発生しました。再試行してください。",
 
+  "form-invalid-spam": "無効なフォーム（スパムが検出されました）。",
+  "recaptcha-not-loaded": "reCAPTCHAが読み込まれていません。ページを再読み込みしてください。",
+  "recaptcha-error": "reCAPTCHAエラー。ページを再読み込みしてください。",
+  "form-server-error": "フォームの送信エラー。もう一度お試しください。",
+  "form-network-error": "ネットワークエラー。接続を確認してもう一度お試しください。",
+
   "mapTop": "フランスに拠点を置き、世界中でご利用可能",
   "mapBottom": "サービスの料金は国の場所によって異なる場合があります。"
 }

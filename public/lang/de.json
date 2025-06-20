@@ -203,11 +203,17 @@
   "confidentialiteTitle": "Datenschutzrichtlinie – Aaron Protection",
   "conditionsTitle": "Nutzungsbedingungen – Aaron Protection",
   
-  "recaptcha-validation-required": "Por favor, valida el reCAPTCHA.",
+  "recaptcha-validation-required": "Bitte validieren Sie das reCAPTCHA.",
   "form-success-message": "Ihre Anfrage wurde erfolgreich gesendet.",
   "form-error-prefix": "Fehler: ",
   "form-unknown-error": "Unbekannter Fehler",
   "form-unexpected-error": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+
+  "form-invalid-spam": "Ungültiges Formular (Spam erkannt).",
+  "recaptcha-not-loaded": "reCAPTCHA nicht geladen. Bitte laden Sie die Seite neu.",
+  "recaptcha-error": "reCAPTCHA-Fehler. Bitte laden Sie die Seite neu.",
+  "form-server-error": "Fehler beim Senden des Formulars. Bitte versuchen Sie es erneut.",
+  "form-network-error": "Netzwerkfehler. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
 
   "mapTop": "In Frankreich ansässig – Verfügbar in allen Ländern",
   "mapBottom": "Die Kosten der Dienstleistung können je nach Standort des Landes variieren."
