@@ -214,6 +214,7 @@
   "recaptcha-error": "reCAPTCHA-Fehler. Bitte laden Sie die Seite neu.",
   "form-server-error": "Fehler beim Senden des Formulars. Bitte versuchen Sie es erneut.",
   "form-network-error": "Netzwerkfehler. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+  "rate-limit-error": "Zu viele Anfragen. Bitte versuchen Sie es später erneut.",
 
   "mapTop": "In Frankreich ansässig – Verfügbar in allen Ländern",
   "mapBottom": "Die Kosten der Dienstleistung können je nach Standort des Landes variieren."

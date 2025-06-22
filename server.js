@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
-const rateLimit = require("express-rate-limit");
+const rateLimit = require("express-rate-limit"); // AJOUT ICI
 
 dotenv.config();
 
@@ -23,14 +23,28 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-// Ajout d'un limiteur pour le reCAPTCHA
+// AJOUT DU RATE LIMITING ICI - APRÈS express.json() et AVANT helmet
+// Limiteur pour le formulaire (par adresse IP)
 const limiter = rateLimit({
-  windowMs: 1 * 120 * 1000, // 1 minute
-  max: 1,
-  message: "Trop de requêtes. Merci de réessayer plus tard."
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 3, // 3 requêtes par minute par IP
+  message: "Trop de requêtes. Merci de réessayer plus tard.",
+  standardHeaders: true, // Retourne les infos de rate limit dans les headers `RateLimit-*`
+  legacyHeaders: false, // Désactive les headers `X-RateLimit-*`
+  // Fonction pour identifier chaque utilisateur (par défaut: par IP)
+  keyGenerator: (req) => {
+  const ip = req.ip || req.connection.remoteAddress || 'unknown';
+  const userAgent = req.get('User-Agent') || 'unknown';
+  return `${ip}-${userAgent.substring(0, 50)}`;
+},
+  // Message personnalisé avec détails
+  handler: (req, res) => {
+    res.status(429).json({
+      error: "Trop de requêtes. Merci de réessayer plus tard.",
+      retryAfter: Math.round(req.rateLimit.resetTime / 1000) // Temps en secondes avant de pouvoir réessayer
+    });
+  }
 });
-
 
 // Helmet après CORS
 app.use(
@@ -103,6 +117,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 const contactRoute = require('./routes/contact');
 const supportRoute = require('./routes/support');
 
+// APPLIQUER LE RATE LIMITING ICI - AVANT les routes
 app.use('/api/contact', limiter);
 app.use('/api/support', limiter);
 app.use('/api/contact', contactRoute);

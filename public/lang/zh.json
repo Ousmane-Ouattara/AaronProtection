@@ -215,6 +215,7 @@
   "recaptcha-error": "reCAPTCHA错误。请重新加载页面。",
   "form-server-error": "表单发送错误。请重试。",
   "form-network-error": "网络错误。请检查您的连接并重试。",
+  "rate-limit-error": "请求过多。请稍后重试。",
 
   "mapTop": "总部位于法国 – 服务遍及所有国家",
   "mapBottom": "服务费用可能取决于所在国家的位置。"
