@@ -104,6 +104,7 @@ const contactRoute = require('./routes/contact');
 const supportRoute = require('./routes/support');
 
 app.use('/api/contact', limiter);
+app.use('/api/support', limiter);
 app.use('/api/contact', contactRoute);
 app.use('/api/support', supportRoute);
 
