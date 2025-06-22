@@ -26,8 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 // AJOUT DU RATE LIMITING ICI - APRÈS express.json() et AVANT helmet
 // Limiteur pour le formulaire (par adresse IP)
 const limiter = rateLimit({
-  windowMs: 1 * 120 * 1000, // 1 minute
-  max: 1, // 3 requêtes par minute par IP
+  windowMs: 1 * 3600 * 1000, // 5 requêtes par heures 
+  max: 5,
   message: "Trop de requêtes. Merci de réessayer plus tard.",
   standardHeaders: true, // Retourne les infos de rate limit dans les headers `RateLimit-*`
   legacyHeaders: false, // Désactive les headers `X-RateLimit-*`
