@@ -26,8 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Ajout d'un limiteur pour le reCAPTCHA
 const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 3,
+  windowMs: 1 * 120 * 1000, // 1 minute
+  max: 1,
   message: "Trop de requêtes. Merci de réessayer plus tard."
 });
 

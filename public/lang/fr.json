@@ -220,6 +220,7 @@
   "recaptcha-error": "Erreur avec le reCAPTCHA. Veuillez recharger la page.",
   "form-server-error": "Erreur lors de l'envoi du formulaire. Veuillez réessayer.",
   "form-network-error": "Erreur réseau. Vérifiez votre connexion et réessayez.",
+  "rate-limit-error": "Trop de requêtes. Merci de réessayer plus tard.",
 
   "mapTop": "Localisé en France – Disponible dans tous les pays",
   "mapBottom": "Le coût du service peux dépendre de l'emplacement du pays."
