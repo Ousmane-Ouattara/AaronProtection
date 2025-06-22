@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
+const rateLimit = require("express-rate-limit");
 
 dotenv.config();
 
@@ -21,6 +22,15 @@ app.use(cors({
 // Middleware pour parser JSON AVANT les routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+// Ajout d'un limiteur pour le reCAPTCHA
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 3,
+  message: "Trop de requêtes. Merci de réessayer plus tard."
+});
+
 
 // Helmet après CORS
 app.use(
@@ -93,6 +103,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 const contactRoute = require('./routes/contact');
 const supportRoute = require('./routes/support');
 
+app.use('/api/contact', limiter);
 app.use('/api/contact', contactRoute);
 app.use('/api/support', supportRoute);
 
