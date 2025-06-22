@@ -193,7 +193,7 @@
               }
             }
           } else {
-            // MODIFICATION ICI : Récupérer le message d'erreur du serveur
+            // Gestion des erreurs serveur (codes 4xx, 5xx)
             let errorMessage;
             try {
               // Essayer de parser la réponse JSON
@@ -201,19 +201,24 @@
               errorMessage = errorData.message || errorData.error || getTranslation('form-server-error');
             } catch (e) {
               // Si ce n'est pas du JSON, récupérer le texte brut
-              const errorText = await response.text();
-              errorMessage = errorText || getTranslation('form-server-error');
+              try {
+                const errorText = await response.text();
+                errorMessage = errorText || getTranslation('form-server-error');
+              } catch (textError) {
+                errorMessage = getTranslation('form-server-error');
+              }
             }
             
             // Vérifier si c'est un message de rate limiting pour utiliser la traduction
-            if (errorMessage.includes('Trop de requêtes') || errorMessage.includes('Too many requests')) {
+            if (errorMessage.includes('Trop de requêtes') || errorMessage.includes('Too many requests') || response.status === 429) {
               errorMessage = getTranslation('rate-limit-error');
             }
             
-            console.error('Erreur serveur:', errorMessage);
-            alert(errorMessage); // Afficher le message spécifique du serveur
+            console.error('Erreur serveur:', response.status, errorMessage);
+            alert(errorMessage);
           }
         } catch (error) {
+          // Vraies erreurs réseau (pas de réponse du serveur)
           console.error('Erreur réseau:', error);
           alert(getTranslation('form-network-error'));
         }
