@@ -215,6 +215,7 @@
   "recaptcha-error": "reCAPTCHA error. Please reload the page.",
   "form-server-error": "Error sending form. Please try again.",
   "form-network-error": "Network error. Check your connection and try again.",
+  "rate-limit-error": "Too many requests. Please try again later.",
 
   "mapTop": "Based in France – Available in all countries",
   "mapBottom": "The service cost may depend on the country’s location."
