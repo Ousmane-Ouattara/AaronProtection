@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Sonde - aaronprotection.onrender.com</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔍 Dashboard Sonde</h1>
+            <div class="url-info">
+                <span class="url">https://aaronprotection.onrender.com</span>
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">En attente...</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="avgLatency">--</div>
+                    <div class="stat-label">Latence moyenne</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="uptime">--</div>
+                    <div class="stat-label">Disponibilité</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="totalChecks">--</div>
+                    <div class="stat-label">Total vérifications</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🕒</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="lastCheck">--</div>
+                    <div class="stat-label">Dernière vérification</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>📈 Évolution de la latence</h2>
+            <div class="chart-container">
+                <canvas id="latencyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="logs-section">
+            <div class="logs-header">
+                <h2>📝 Logs récents</h2>
+                <button id="refreshBtn" class="refresh-btn">🔄 Actualiser</button>
+            </div>
+            <div class="logs-container">
+                <table class="logs-table">
+                    <thead>
+                        <tr>
+                            <th>Date/Heure</th>
+                            <th>Status</th>
+                            <th>Latence</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <tr>
+                            <td colspan="3" class="loading">Chargement des données...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SondeDashboard {
+            constructor() {
+                this.data = [];
+                this.chart = null;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadData();
+                this.setupAutoRefresh();
+            }
+
+            setupEventListeners() {
+                document.getElementById('refreshBtn').addEventListener('click', () => {
+                    this.loadData();
+                });
+            }
+
+            setupAutoRefresh() {
+                // Actualisation automatique toutes les 10 secondes
+                setInterval(() => {
+                    console.log('Auto-refresh des données...');
+                    this.loadData();
+                }, 10000);
+            }
+
+            async loadData() {
+                try {
+                    // Cache-busting plus agressif
+                    const timestamp = Date.now();
+                    const response = await fetch(`log_sonde.csv?v=${timestamp}&nocache=${Math.random()}`, {
+                        cache: 'no-cache',
+                        headers: {
+                            'Cache-Control': 'no-cache',
+                            'Pragma': 'no-cache'
+                        }
+                    });
+                    const csvText = await response.text();
+                    console.log('Données CSV chargées:', csvText.length, 'caractères');
+                    this.parseCSV(csvText);
+                    this.updateUI();
+                } catch (error) {
+                    console.error('Erreur lors du chargement des données:', error);
+                    this.showError();
+                }
+            }
+
+            parseCSV(csvText) {
+                console.log('Parsing CSV, contenu:', csvText.substring(0, 200) + '...');
+                const lines = csvText.trim().split('\n');
+                console.log('Nombre de lignes:', lines.length);
+                
+                if (lines.length <= 1) {
+                    console.warn('Aucune donnée trouvée dans le CSV');
+                    return;
+                }
+                
+                const headers = lines[0].split(';');
+                console.log('En-têtes:', headers);
+                
+                this.data = lines.slice(1).map(line => {
+                    const values = line.split(';');
+                    return {
+                        dateTime: values[0],
+                        latency: values[1] === 'ERROR' ? null : parseFloat(values[1]),
+                        statusCode: values[2] === '0' ? 'ERROR' : parseInt(values[2]),
+                        isError: values[1] === 'ERROR'
+                    };
+                }).filter(row => row.dateTime); // Filtrer les lignes vides
+                
+                console.log('Données parsées:', this.data.length, 'entrées');
+                console.log('Dernière entrée:', this.data[this.data.length - 1]);
+            }
+
+            updateUI() {
+                this.updateStats();
+                this.updateStatusIndicator();
+                this.updateLogsTable();
+                this.updateChart();
+            }
+
+            updateStats() {
+                if (this.data.length === 0) return;
+
+                // Latence moyenne
+                const validLatencies = this.data.filter(d => !d.isError && d.latency !== null);
+                const avgLatency = validLatencies.length > 0 
+                    ? Math.round(validLatencies.reduce((sum, d) => sum + d.latency, 0) / validLatencies.length)
+                    : 0;
+                document.getElementById('avgLatency').textContent = avgLatency + ' ms';
+
+                // Disponibilité
+                const successCount = this.data.filter(d => !d.isError && d.statusCode === 200).length;
+                const uptime = this.data.length > 0 ? Math.round((successCount / this.data.length) * 100) : 0;
+                document.getElementById('uptime').textContent = uptime + '%';
+
+                // Total vérifications
+                document.getElementById('totalChecks').textContent = this.data.length;
+
+                // Dernière vérification
+                const lastEntry = this.data[this.data.length - 1];
+                document.getElementById('lastCheck').textContent = lastEntry ? lastEntry.dateTime : '--';
+            }
+
+            updateStatusIndicator() {
+                const indicator = document.getElementById('statusIndicator');
+                const dot = indicator.querySelector('.status-dot');
+                const text = indicator.querySelector('.status-text');
+
+                if (this.data.length === 0) {
+                    dot.className = 'status-dot unknown';
+                    text.textContent = 'En attente...';
+                    return;
+                }
+
+                const lastEntry = this.data[this.data.length - 1];
+                
+                if (lastEntry.isError) {
+                    dot.className = 'status-dot error';
+                    text.textContent = 'Erreur';
+                } else if (lastEntry.statusCode === 200) {
+                    dot.className = 'status-dot success';
+                    text.textContent = 'En ligne';
+                } else {
+                    dot.className = 'status-dot warning';
+                    text.textContent = `Status ${lastEntry.statusCode}`;
+                }
+            }
+
+            updateLogsTable() {
+                const tbody = document.getElementById('logsTableBody');
+                
+                if (this.data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="no-data">Aucune donnée disponible</td></tr>';
+                    return;
+                }
+
+                // Afficher les 20 derniers logs
+                const recentLogs = this.data.slice(-20).reverse();
+                
+                tbody.innerHTML = recentLogs.map(entry => {
+                    const statusClass = entry.isError ? 'error' : 
+                                       entry.statusCode === 200 ? 'success' : 'warning';
+                    
+                    const statusText = entry.isError ? '❌ ERROR' : 
+                                      entry.statusCode === 200 ? '✅ 200' : 
+                                      `⚠️ ${entry.statusCode}`;
+                    
+                    const latencyText = entry.isError ? '--' : `${entry.latency} ms`;
+                    
+                    return `
+                        <tr class="${statusClass}">
+                            <td>${entry.dateTime}</td>
+                            <td>${statusText}</td>
+                            <td>${latencyText}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            updateChart() {
+                const canvas = document.getElementById('latencyChart');
+                const ctx = canvas.getContext('2d');
+                
+                if (this.data.length === 0) {
+                    // Afficher un message si pas de données
+                    if (this.chart) {
+                        this.chart.destroy();
+                        this.chart = null;
+                    }
+                    return;
+                }
+
+                // Prendre les 50 derniers points pour le graphique
+                const chartData = this.data.slice(-50).filter(d => !d.isError && d.latency !== null);
+                
+                if (chartData.length === 0) {
+                    if (this.chart) {
+                        this.chart.destroy();
+                        this.chart = null;
+                    }
+                    return;
+                }
+
+                const labels = chartData.map(d => {
+                    const date = new Date(d.dateTime);
+                    return date.toLocaleTimeString('fr-FR', { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                });
+
+                const latencies = chartData.map(d => d.latency);
+
+                // Détruire l'ancien graphique s'il existe
+                if (this.chart) {
+                    this.chart.destroy();
+                }
+
+                // Créer le nouveau graphique
+                this.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Latence (ms)',
+                            data: latencies,
+                            borderColor: '#4f46e5',
+                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#4f46e5',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    },
+                                    color: '#374151'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: 'white',
+                                bodyColor: 'white',
+                                borderColor: '#4f46e5',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Latence: ${context.parsed.y} ms`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Heure',
+                                    color: '#6b7280',
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                ticks: {
+                                    color: '#6b7280',
+                                    maxTicksLimit: 8
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Latence (ms)',
+                                    color: '#6b7280',
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                ticks: {
+                                    color: '#6b7280'
+                                },
+                                beginAtZero: false
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        },
+                        animation: {
+                            duration: 750,
+                            easing: 'easeInOutQuart'
+                        }
+                    }
+                });
+            }
+
+            showError() {
+                document.getElementById('logsTableBody').innerHTML = 
+                    '<tr><td colspan="3" class="error">❌ Erreur lors du chargement des données</td></tr>';
+            }
+        }
+
+        // Initialiser le dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            new SondeDashboard();
+        });
+    </script>
+</body>
+</html>
