@@ -89,7 +89,7 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ error: 'Échec de la vérification reCAPTCHA.' });
       }
       
-      console.log('reCAPTCHA VALIDÉ');
+      console.log('✅ reCAPTCHA VALIDÉ');
     } catch (recaptchaError) {
       console.error('ERREUR RECAPTCHA:', recaptchaError);
       return res.status(500).json({ error: 'Erreur lors de la vérification reCAPTCHA.' });
@@ -101,58 +101,125 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Envoi trop rapide détecté.' });
     }
 
-    // Enregistre dans la base (optionnel - peut être commenté si problème BDD)
+    // Enregistre dans la base
     console.log('Tentative d\'enregistrement en base...');
     try {
       const newRequest = new SupportRequest({ fullname, email, subject, message });
       await newRequest.save();
-      console.log('ENREGISTREMENT BDD RÉUSSI');
+      console.log('✅ ENREGISTREMENT BDD RÉUSSI');
     } catch (dbError) {
-      console.error('ERREUR BDD:', dbError);
+      console.error('❌ ERREUR BDD:', dbError);
       // Continue même si l'enregistrement échoue
     }
 
-    // Envoi d'e-mail
-    console.log('Tentative d\'envoi d\'email...');
-    console.log('Config email:', {
-      MAIL_USER: process.env.MAIL_USER ? 'OK' : 'MANQUANT',
-      MAIL_PASS: process.env.MAIL_PASS ? 'OK' : 'MANQUANT',
-      MAIL_RECEIVER: process.env.MAIL_RECEIVER ? 'OK' : 'MANQUANT'
-    });
+    // === DIAGNOSTIC EMAIL DÉTAILLÉ ===
+    console.log('\n=== DIAGNOSTIC EMAIL ===');
+    console.log('Variables d\'environnement:');
+    console.log('- MAIL_USER:', process.env.MAIL_USER || '❌ MANQUANT');
+    console.log('- MAIL_PASS:', process.env.MAIL_PASS ? '✅ Présent (longueur: ' + process.env.MAIL_PASS.length + ')' : '❌ MANQUANT');
+    console.log('- MAIL_RECEIVER:', process.env.MAIL_RECEIVER || '❌ MANQUANT');
     
+    // Test de création du transporter
+    console.log('\nCréation du transporter...');
+    let transporter;
     try {
-      const transporter = nodemailer.createTransport({
+      transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: process.env.MAIL_USER,
           pass: process.env.MAIL_PASS
-        }
+        },
+        debug: true, // Active les logs détaillés
+        logger: true // Active le logger
       });
-
-      const mailOptions = {
-        from: `"Support Technique" <${process.env.MAIL_USER}>`,
-        to: process.env.MAIL_RECEIVER,
-        subject: `[Support] ${subject}`,
-        text: `Demande reçue de ${fullname} (${email}) :\n\n${message}`
-      };
-
-      await transporter.sendMail(mailOptions);
-      console.log('EMAIL ENVOYÉ AVEC SUCCÈS');
-    } catch (mailError) {
-      console.error('ERREUR EMAIL:', mailError);
-      return res.status(500).json({ error: 'Erreur lors de l\'envoi de l\'e-mail.' });
+      console.log('✅ Transporter créé');
+    } catch (transporterError) {
+      console.error('❌ ERREUR CRÉATION TRANSPORTER:', transporterError);
+      return res.status(500).json({ 
+        error: 'Erreur de configuration email',
+        details: transporterError.message 
+      });
     }
 
-    console.log('SUCCÈS COMPLET - Envoi réponse');
+    // Test de vérification du transporter
+    console.log('\nVérification de la connexion...');
+    try {
+      await transporter.verify();
+      console.log('✅ Connexion email vérifiée');
+    } catch (verifyError) {
+      console.error('❌ ERREUR VÉRIFICATION:', verifyError);
+      console.error('Code:', verifyError.code);
+      console.error('Command:', verifyError.command);
+      return res.status(500).json({ 
+        error: 'Impossible de se connecter au serveur email',
+        details: verifyError.message,
+        code: verifyError.code
+      });
+    }
+
+    // Préparation du mail
+    console.log('\nPréparation du mail...');
+    const mailOptions = {
+      from: `"Support Technique" <${process.env.MAIL_USER}>`,
+      to: process.env.MAIL_RECEIVER,
+      subject: `[Support] ${subject}`,
+      text: `Demande reçue de ${fullname} (${email}) :\n\n${message}`,
+      html: `
+        <h2>Nouvelle demande de support</h2>
+        <p><strong>De:</strong> ${fullname}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Sujet:</strong> ${subject}</p>
+        <p><strong>Message:</strong></p>
+        <div style="background-color: #f5f5f5; padding: 15px; border-left: 4px solid #007bff;">
+          ${message.replace(/\n/g, '<br>')}
+        </div>
+        <p><em>Date: ${new Date().toLocaleString('fr-FR')}</em></p>
+      `
+    };
+
+    console.log('Options du mail:', {
+      from: mailOptions.from,
+      to: mailOptions.to,
+      subject: mailOptions.subject
+    });
+
+    // Envoi du mail
+    console.log('\n🚀 Envoi du mail...');
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log('✅ EMAIL ENVOYÉ AVEC SUCCÈS');
+      console.log('Message ID:', info.messageId);
+      console.log('Response:', info.response);
+    } catch (mailError) {
+      console.error('\n❌ ERREUR DÉTAILLÉE EMAIL:');
+      console.error('Message:', mailError.message);
+      console.error('Code:', mailError.code);
+      console.error('Command:', mailError.command);
+      console.error('Response:', mailError.response);
+      console.error('ResponseCode:', mailError.responseCode);
+      console.error('Stack:', mailError.stack);
+      
+      return res.status(500).json({ 
+        error: 'Erreur lors de l\'envoi de l\'e-mail',
+        details: mailError.message,
+        code: mailError.code,
+        response: mailError.response
+      });
+    }
+
+    console.log('\n✅ SUCCÈS COMPLET - Envoi réponse');
     res.status(200).json({ message: 'Votre demande a été envoyée avec succès.' });
 
   } catch (error) {
-    console.error('ERREUR GÉNÉRALE:', error);
+    console.error('\n❌ ERREUR GÉNÉRALE:', error);
     console.error('Stack trace:', error.stack);
-    res.status(500).json({ error: 'Erreur serveur.' });
+    res.status(500).json({ 
+      error: 'Erreur serveur',
+      details: error.message 
+    });
   }
   
-  console.log('=== FIN TRAITEMENT SUPPORT REQUEST ===');
+  console.log('=== FIN TRAITEMENT SUPPORT REQUEST ===\n');
 });
 
 module.exports = router;
