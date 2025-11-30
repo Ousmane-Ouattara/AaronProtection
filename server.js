@@ -11,6 +11,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+  const host = req.headers.host;
+
+  if (host === "aaronprotection.onrender.com") {
+    return res.redirect(301, "https://aaronprotection-securite.fr" + req.url);
+  }
+
+  next();
+});
+
+
 // Configuration CORS AVANT toute autre chose
 app.use(cors({
   origin: ['http://localhost:3000', 'https://aaronprotection.onrender.com', 'http://127.0.0.1:5500', 'https://votre-domaine-frontend.com'],
