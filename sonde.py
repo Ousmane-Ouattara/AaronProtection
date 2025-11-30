@@ -4,7 +4,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 # CONFIG
-URL = "https://aaronprotection.onrender.com"
+URL = "https://aaronprotection-securite.fr"
 INTERVAL = 60  # en secondes
 LOG_FILE = "log_sonde.csv"
 
