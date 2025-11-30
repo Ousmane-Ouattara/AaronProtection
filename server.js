@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 // Configuration CORS AVANT toute autre chose
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://aaronprotection.onrender.com', 'http://127.0.0.1:5500', 'https://votre-domaine-frontend.com'],
+  origin: ['http://localhost:3000', 'https://aaronprotection-securite.fr', 'https://www.aaronprotection-securite.fr', 'http://127.0.0.1:5500', 'https://votre-domaine-frontend.com'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
